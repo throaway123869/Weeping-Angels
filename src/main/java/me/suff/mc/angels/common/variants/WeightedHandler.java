@@ -25,7 +25,7 @@ public class WeightedHandler {
                 return entry.abstractVariant;
             }
         }
-        return AngelTypes.NORMAL.get();
+        return AngelTypes.NORMAL;
     }
 
     public boolean isEmpty() {

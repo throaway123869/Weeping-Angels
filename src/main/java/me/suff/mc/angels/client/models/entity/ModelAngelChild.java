@@ -211,7 +211,7 @@ public class ModelAngelChild extends ListModel<WeepingAngel> implements IAngelMo
             return generateTex(weepingAngelEntity.getPose(), weepingAngelEntity.getAngelVarients());
         }
 
-        return generateTex(WeepingAngelPose.APPROACH, AngelTypes.NORMAL.get());
+        return generateTex(WeepingAngelPose.APPROACH, AngelTypes.NORMAL);
     }
 
     @Override

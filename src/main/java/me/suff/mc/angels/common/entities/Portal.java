@@ -78,8 +78,7 @@ public class Portal extends Mob {
     protected void doPush(Entity entityIn) {
         super.doPush(entityIn);
 
-        if (entityIn instanceof WeepingAngel) {
-            WeepingAngel weepingAngel = (WeepingAngel) entityIn;
+        if (entityIn instanceof WeepingAngel weepingAngel) {
             weepingAngel.setSilent(true);
             weepingAngel.hurt(WAObjects.GENERATOR, Integer.MAX_VALUE);
         }

@@ -29,8 +29,6 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
-import javax.annotation.Nullable;
-
 public class PlinthBlock extends Block implements SimpleWaterloggedBlock, EntityBlock {
 
     public static final IntegerProperty ROTATION = BlockStateProperties.ROTATION_16;
@@ -107,7 +105,6 @@ public class PlinthBlock extends Block implements SimpleWaterloggedBlock, Entity
         }
     }
 
-    @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {
         return new PlinthBlockEntity(p_153215_, p_153216_);
@@ -122,7 +119,6 @@ public class PlinthBlock extends Block implements SimpleWaterloggedBlock, Entity
         };
     }
 
-    @Nullable
     @Override
     public <T extends BlockEntity> GameEventListener getListener(Level p_153210_, T p_153211_) {
         return EntityBlock.super.getListener(p_153210_, p_153211_);

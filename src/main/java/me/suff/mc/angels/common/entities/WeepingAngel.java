@@ -5,7 +5,6 @@ import me.suff.mc.angels.api.EventAngelBreakEvent;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.ai.GoalWalkWhenNotWatched;
-import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;

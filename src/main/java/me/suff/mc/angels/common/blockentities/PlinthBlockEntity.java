@@ -28,10 +28,10 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
     private boolean hasSpawned = false;
     private String type = AngelEnums.AngelType.ANGELA_MC.name();
     private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(AngelUtil.RAND);
-    private AbstractVariant angelVariant = AngelTypes.NORMAL.get();
+    private AbstractVariant angelVariant = AngelTypes.NORMAL;
 
     public PlinthBlockEntity(BlockPos blockPos, BlockState state) {
-        super(WAObjects.Tiles.PLINTH.get(), blockPos, state);
+        super(WAObjects.Tiles.PLINTH, blockPos, state);
     }
 
     public boolean getHasSpawned() {

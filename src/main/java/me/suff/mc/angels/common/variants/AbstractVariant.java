@@ -1,17 +1,19 @@
 package me.suff.mc.angels.common.variants;
 
 import me.suff.mc.angels.common.entities.WeepingAngel;
+import net.minecraft.client.Minecraft;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.function.Predicate;
 
-public abstract class AbstractVariant extends ForgeRegistryEntry<AbstractVariant> {
+public abstract class AbstractVariant {
 
     private final Predicate<WeepingAngel> variantTest;
     private boolean isHeadless = false;
+    private ResourceLocation name;
 
     public AbstractVariant(Predicate<WeepingAngel> weepingAngelEntityPredicate) {
         this.variantTest = weepingAngelEntityPredicate;
@@ -45,5 +47,14 @@ public abstract class AbstractVariant extends ForgeRegistryEntry<AbstractVariant
             return true;
         }
         return variantTest.test(weepingAngel);
+    }
+
+    public AbstractVariant setName(ResourceLocation name){
+        this.name = name;
+        return this;
+    }
+
+    public ResourceLocation getName() {
+        return name;
     }
 }

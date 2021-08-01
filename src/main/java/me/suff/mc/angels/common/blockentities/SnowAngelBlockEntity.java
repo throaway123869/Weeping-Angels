@@ -27,12 +27,12 @@ public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTick
 
     private final AABB AABB = new AABB(0.2, 0, 0, 0.8, 2, 0.1);
     private SnowAngelStages snowAngelStages = SnowAngelStages.ARM;
-    private AbstractVariant angelVariant = AngelTypes.NORMAL.get();
+    private AbstractVariant angelVariant = AngelTypes.NORMAL;
     private boolean hasSetup = false;
     private int rotation = 0;
 
     public SnowAngelBlockEntity(BlockPos pos, BlockState blockState) {
-        super(WAObjects.Tiles.SNOW_ANGEL.get(), pos, blockState);
+        super(WAObjects.Tiles.SNOW_ANGEL, pos, blockState);
     }
 
     public SnowAngelStages getSnowAngelStage() {

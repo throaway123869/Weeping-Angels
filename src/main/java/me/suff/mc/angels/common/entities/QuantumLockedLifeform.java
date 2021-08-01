@@ -64,13 +64,8 @@ public class QuantumLockedLifeform extends Monster implements Enemy {
                     if (ViewUtil.isInSight(player, this) && isOnGround()) {
                         setSeenTime(getSeenTime() + 1);
                         invokeSeen(player);
-                        AngelInfection.get(player).ifPresent(AngelVirus::tickCounter);
                         return;
                     }
-                    AngelInfection.get(player).ifPresent((angelVirus -> {
-                        angelVirus.infect(false);
-                    }));
-
                     if (targetPlayer == null) {
                         targetPlayer = player;
                         setSeenTime(0);
@@ -106,6 +101,8 @@ public class QuantumLockedLifeform extends Monster implements Enemy {
         getEntityData().define(TIME_VIEWED, 0);
         getEntityData().define(PREVBLOCKPOS, BlockPos.ZERO);
     }
+
+    
 
     @Override
     public void deserializeNBT(CompoundTag compound) {

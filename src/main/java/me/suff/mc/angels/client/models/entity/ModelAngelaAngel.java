@@ -255,12 +255,12 @@ public class ModelAngelaAngel extends ListModel<WeepingAngel> implements IAngelM
 
     @Override
     public ResourceLocation generateTex(WeepingAngelPose pose, AbstractVariant abstractVariant) {
-        String variant = abstractVariant.getRegistryName().getPath() + "_angel_";
+        String variant = abstractVariant.getName().getPath() + "_angel_";
         String coreFolder = "textures/entities/angela/";
-        coreFolder = coreFolder + abstractVariant.getRegistryName().getPath() + "/";
+        coreFolder = coreFolder + abstractVariant.getName().getPath() + "/";
         WeepingAngelPose.Emotion emotion = pose.getEmotion();
         String suffix = abstractVariant.isHeadless() ? "headless" : emotion.name().toLowerCase();
-        return new ResourceLocation(abstractVariant.getRegistryName().getNamespace(), coreFolder + variant + suffix + ".png");
+        return new ResourceLocation(abstractVariant.getName().getNamespace(), coreFolder + variant + suffix + ".png");
     }
 
     @Override

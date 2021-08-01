@@ -1,8 +1,8 @@
 package me.suff.mc.angels.common.blocks;
 
+import me.suff.mc.angels.common.blockentities.SnowAngelBlockEntity;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.WeepingAngel;
-import me.suff.mc.angels.common.blockentities.SnowAngelBlockEntity;
 import me.suff.mc.angels.common.variants.AngelTypes;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
@@ -27,7 +27,6 @@ import net.minecraft.world.level.gameevent.GameEventListener;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.Vec3;
 
-import javax.annotation.Nullable;
 import java.util.Random;
 
 public class SnowArmBlock extends SnowLayerBlock implements EntityBlock {
@@ -90,7 +89,6 @@ public class SnowArmBlock extends SnowLayerBlock implements EntityBlock {
 
     }
 
-    @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new SnowAngelBlockEntity(pos, state);
@@ -105,7 +103,6 @@ public class SnowArmBlock extends SnowLayerBlock implements EntityBlock {
         };
     }
 
-    @Nullable
     @Override
     public <T extends BlockEntity> GameEventListener getListener(Level p_153210_, T p_153211_) {
         return EntityBlock.super.getListener(p_153210_, p_153211_);

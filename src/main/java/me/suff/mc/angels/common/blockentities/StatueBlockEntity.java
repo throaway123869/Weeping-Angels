@@ -32,7 +32,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
 
     private String type = AngelEnums.AngelType.ANGELA_MC.name();
     private WeepingAngelPose pose = WeepingAngelPose.getRandomPose(AngelUtil.RAND);
-    private AbstractVariant angelVariant = AngelTypes.NORMAL.get();
+    private AbstractVariant angelVariant = AngelTypes.NORMAL;
 
 
     public StatueBlockEntity(BlockPos pos, BlockState state) {
