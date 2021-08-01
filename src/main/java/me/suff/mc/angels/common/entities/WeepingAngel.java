@@ -415,7 +415,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
                     }
                 }
 
-                if (blockState.getLightEmission(level, pos) > 0 && !(blockState.getBlock() instanceof NetherPortalBlock) && !(blockState.getBlock() instanceof EndPortalBlock)) {
+                if (blockState.getLightBlock(level, pos) > 0 && !(blockState.getBlock() instanceof NetherPortalBlock) && !(blockState.getBlock() instanceof EndPortalBlock)) {
                     updateBlock(this, pos, Blocks.AIR.defaultBlockState(), true);
                     return;
                 }

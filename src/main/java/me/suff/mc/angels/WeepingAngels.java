@@ -6,7 +6,6 @@ import me.suff.mc.angels.client.renders.entities.AnomalyRender;
 import me.suff.mc.angels.client.renders.entities.CGRender;
 import me.suff.mc.angels.common.AngelParticles;
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.common.WAPaintings;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.entities.attributes.WAAttributes;
 import me.suff.mc.angels.common.variants.AngelTypes;
@@ -103,20 +102,6 @@ public class WeepingAngels {
         event.registerEntityRenderer(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), CGRender::new);
     }
 
-    private void doClientStuff(final FMLClientSetupEvent event) {
-        DistExecutor.runWhenOn(Dist.CLIENT, () -> ClientUtil::doClientStuff);
-    }
-
-    @SubscribeEvent
-    public void onGatherData(GatherDataEvent e) {
-        DataGenerator generator = e.getGenerator();
-        ExistingFileHelper existingFileHelper = e.getExistingFileHelper();
-        generator.addProvider(new WAItemTags(generator, new WABlockTags(generator, existingFileHelper), existingFileHelper));
-        generator.addProvider(new WABlockTags(generator, existingFileHelper));
-        generator.addProvider(new WALangEnglish(generator));
-        generator.addProvider(new WARecipeGen(generator));
-        generator.addProvider(new WALootTables(generator));
-    }
 
     public void onAttributeAssign(EntityAttributeCreationEvent event) {
         event.put(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WeepingAngel.createAttributes().build());

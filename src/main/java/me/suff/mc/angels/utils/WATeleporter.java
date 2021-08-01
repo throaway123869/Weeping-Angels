@@ -39,8 +39,8 @@ public class WATeleporter {
         return world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, pos);
     }
 
-    public static ServerLevel getRandomDimension(Random rand) {
-        Iterable<ServerLevel> dimensions = ServerLifecycleHooks.getCurrentServer().getAllLevels();
+    public static ServerLevel getRandomDimension(ServerLevel serverLevel, Random rand) {
+        Iterable<ServerLevel> dimensions = serverLevel.getServer().getAllLevels();
         ArrayList<ServerLevel> allowedDimensions = Lists.newArrayList(dimensions);
 
         for (ServerLevel dimension : dimensions) {
@@ -51,7 +51,7 @@ public class WATeleporter {
             }
         }
 
-        allowedDimensions.remove(ServerLifecycleHooks.getCurrentServer().getLevel(Level.NETHER));
+        allowedDimensions.remove(serverLevel.getServer().getLevel(Level.NETHER));
 
         return allowedDimensions.get(rand.nextInt(allowedDimensions.size()));
     }

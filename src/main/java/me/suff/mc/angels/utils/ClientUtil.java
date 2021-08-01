@@ -43,7 +43,6 @@ public class ClientUtil {
         return MODEL_MAP.get(angelType);
     }
 
-    @OnlyIn(Dist.CLIENT)
     public static void playSound(SoundEvent soundIn, float volumeSfx) {
         Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(soundIn, volumeSfx));
     }

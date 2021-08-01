@@ -1,6 +1,5 @@
 package me.suff.mc.angels.utils;
 
-import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.common.entities.QuantumLockedLifeform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -14,7 +13,6 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 import net.minecraft.world.phys.AABB;
@@ -22,60 +20,20 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.Shapes;
 
-import javax.annotation.Nullable;
 import java.util.function.Predicate;
 
 public class ViewUtil {
 
     private static final float headSize = 0.15f;
 
-    public static boolean isInFrontOfEntity(LivingEntity entity, Entity target, boolean vr) {
+    public static boolean isInFrontOfEntity(LivingEntity entity, Entity target) {
         Vec3 vecTargetsPos = target.position();
-        Vec3 vecLook;
-
-        if (vr) {
-            if (entity instanceof Player) {
-                vecLook = WeepingAngels.VR_REFLECTOR.getHMDRot((Player) entity);
-            } else {
-                throw new RuntimeException("Attempted to use a non-player entity with VRSupport: " + entity.getPersistentData());
-            }
-        } else {
-            vecLook = entity.getLookAngle();
-        }
+        Vec3 vecLook = entity.getLookAngle();
         Vec3 vecFinal = vecTargetsPos.vectorTo(new Vec3(entity.getX(), entity.getY(), entity.getZ())).normalize();
         vecFinal = new Vec3(vecFinal.x, 0.0D, vecFinal.z);
         return vecFinal.dot(vecLook) < 0.0;
     }
 
-    /**
-     * Method that detects whether a entity is the the view sight of another entity
-     *
-     * @param viewer      The viewer entity
-     * @param beingViewed The entity being watched by viewer
-     */
-    public static boolean canEntitySee(LivingEntity viewer, BlockEntity beingViewed) {
-        double dx = beingViewed.getBlockPos().getX() - viewer.getX();
-        double dz;
-        for (dz = beingViewed.getBlockPos().getX() - viewer.getZ(); dx * dx + dz * dz < 1.0E-4D; dz = (Math.random() - Math.random()) * 0.01D) {
-            dx = (Math.random() - Math.random()) * 0.01D;
-        }
-        while (viewer.yHeadRot > 360) {
-            viewer.yHeadRot -= 360;
-        }
-        while (viewer.yHeadRot < -360) {
-            viewer.yHeadRot += 360;
-        }
-        float yaw = (float) (Math.atan2(dz, dx) * 180.0D / Math.PI) - viewer.yHeadRot;
-        yaw = yaw - 90;
-        while (yaw < -180) {
-            yaw += 360;
-        }
-        while (yaw >= 180) {
-            yaw -= 360;
-        }
-
-        return yaw < 60 && yaw > -60;
-    }
 
     public static boolean isInSightPos(LivingEntity viewer, BlockPos pos) {
         double dx = pos.getX() - viewer.getX();
@@ -133,10 +91,7 @@ public class ViewUtil {
         if (viewBlocked(livingBase, angel)) {
             return false;
         }
-        if (livingBase instanceof Player) {
-            return isInFrontOfEntity(livingBase, angel, WeepingAngels.VR_REFLECTOR.isVRPlayer((Player) livingBase));
-        }
-        return isInFrontOfEntity(livingBase, angel, false);
+        return isInFrontOfEntity(livingBase, angel);
     }
 
     public static boolean viewBlocked(LivingEntity viewer, LivingEntity angel) {
@@ -145,11 +100,7 @@ public class ViewUtil {
         Vec3[] viewerPoints = {new Vec3(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.minZ), new Vec3(viewerBoundBox.minX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3(viewerBoundBox.minX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.minZ), new Vec3(viewerBoundBox.maxX, viewerBoundBox.maxY, viewerBoundBox.maxZ), new Vec3(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.maxZ), new Vec3(viewerBoundBox.maxX, viewerBoundBox.minY, viewerBoundBox.minZ),};
 
         if (viewer instanceof Player) {
-            Vec3 pos;
-            if (WeepingAngels.VR_REFLECTOR.isVRPlayer((Player) viewer))
-                pos = WeepingAngels.VR_REFLECTOR.getHMDPos((Player) viewer);
-            else
-                pos = new Vec3(viewer.getX(), viewer.getY() + 1.62f, viewer.getZ());
+            Vec3 pos = new Vec3(viewer.getX(), viewer.getY() + 1.62f, viewer.getZ());
             viewerPoints[0] = pos.add(-headSize, -headSize, -headSize);
             viewerPoints[1] = pos.add(-headSize, -headSize, headSize);
             viewerPoints[2] = pos.add(-headSize, headSize, -headSize);
@@ -182,8 +133,6 @@ public class ViewUtil {
         return true;
     }
 
-
-    @Nullable
     private static HitResult rayTraceBlocks(LivingEntity livingEntity, Level world, Vec3 vec31, Vec3 vec32, Predicate<BlockPos> stopOn) {
         if (!Double.isNaN(vec31.x) && !Double.isNaN(vec31.y) && !Double.isNaN(vec31.z)) {
             if (!Double.isNaN(vec32.x) && !Double.isNaN(vec32.y) && !Double.isNaN(vec32.z)) {

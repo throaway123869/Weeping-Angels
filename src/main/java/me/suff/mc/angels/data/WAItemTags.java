@@ -34,7 +34,7 @@ public class WAItemTags extends ItemTagsProvider {
 
     }
 
-    public void add(Tag.Named<Item> branch, Item block) {
+    public void add(Tag<Item> branch, Item block) {
         this.tag(branch).add(block);
     }
 }

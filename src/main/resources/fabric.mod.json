@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "weeping-angels",
+  "version": "${version}",
+  "name": "Weeping Angels",
+  "description": "Don't Blink!",
+  "authors": [
+    "Suff99"
+  ],
+  "contact": {
+    "website": "https://who-craft.com",
+    "repo": "https://github.com/WhoCraft/Weeping-Angels"
+  },
+  "license": "GPL-3.0",
+  "icon": "logo.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "me.suff.mc.angels.WeepingAngelsClient"
+    ],
+    "main": [
+      "me.suff.mc.angels.WeepingAngels"
+    ]
+  },
+  "mixins": [
+    "weeping-angels.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.6",
+    "fabric": "*",
+    "minecraft": "1.17.1"
+  }
+}

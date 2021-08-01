@@ -28,8 +28,6 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 
-import javax.annotation.Nullable;
-
 import static net.minecraft.world.level.block.SculkSensorBlock.WATERLOGGED;
 
 
@@ -45,14 +43,14 @@ public class CoffinBlock extends BaseEntityBlock {
     }
 
     @Override
-    public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
+    public int getLightBlock(BlockState state, BlockGetter world, BlockPos pos) {
         if (world.getBlockEntity(pos) instanceof CoffinBlockEntity) {
             CoffinBlockEntity coffinBlockEntity = (CoffinBlockEntity) world.getBlockEntity(pos);
             if (coffinBlockEntity.getCoffin().isPoliceBox()) {
                 return 7;
             }
         }
-        return super.getLightEmission(state, world, pos);
+        return super.getLightBlock(state, world, pos);
     }
 
     @Override
@@ -116,7 +114,6 @@ public class CoffinBlock extends BaseEntityBlock {
         return state.setValue(ROTATION, mirrorIn.mirror(state.getValue(ROTATION), 16));
     }
 
-    @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos p_153215_, BlockState p_153216_) {
         return new CoffinBlockEntity(p_153215_, p_153216_);

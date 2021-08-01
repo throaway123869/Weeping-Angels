@@ -6,15 +6,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.registries.ForgeRegistries;
 
 import static me.suff.mc.angels.utils.AngelUtil.RAND;
 
@@ -58,6 +55,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
         return hasSkeleton;
     }
 
+
     @Override
     public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
         super.onDataPacket(net, pkt);
@@ -71,6 +69,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
             setChanged();
         }
     }
+
 
     @Override
     public void tick(Level p_155253_, BlockPos p_155254_, BlockState p_155255_, CoffinBlockEntity p_155256_) {
@@ -116,10 +115,6 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
             if (ticks >= 360) {
                 if (!level.isClientSide) {
                     level.removeBlock(worldPosition, false);
-
-                    if (ModList.get().isLoaded("tardis")) {
-                        level.setBlockAndUpdate(worldPosition.above(), ForgeRegistries.BLOCKS.getValue(new ResourceLocation("tardis", "broken_exterior")).defaultBlockState());
-                    }
 
                     int i = 25;
                     while (i > 0) {

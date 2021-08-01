@@ -9,6 +9,7 @@ import me.suff.mc.angels.common.blockentities.CoffinBlockEntity;
 import me.suff.mc.angels.common.blockentities.SnowAngelBlockEntity;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.world.WAWorld;
+import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.BlockParticleOption;
@@ -17,8 +18,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
@@ -53,11 +52,11 @@ import static me.suff.mc.angels.common.blockentities.CoffinBlockEntity.Coffin.*;
 
 public class AngelUtil {
 
-    public static Tag.Named<Item> THEFT = makeItem(WeepingAngels.MODID, "angel_theft");
-    public static Tag.Named<Item> HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
-    public static Tag.Named<Block> BANNED_BLOCKS = makeBlock(WeepingAngels.MODID, "angel_proof");
-    public static Tag.Named<Block> POTTED_PLANTS = makeBlock(WeepingAngels.MODID, "grave_plants");
-    public static Tag.Named<Block> ANGEL_IGNORE = makeBlock(WeepingAngels.MODID, "angel_ignore");
+    public static Tag<Item> THEFT = makeItem(WeepingAngels.MODID, "angel_theft");
+    public static Tag<Item> HELD_LIGHT_ITEMS = makeItem(WeepingAngels.MODID, "held_light_items");
+    public static Tag<Block> BANNED_BLOCKS = makeBlock(WeepingAngels.MODID, "angel_proof");
+    public static Tag<Block> POTTED_PLANTS = makeBlock(WeepingAngels.MODID, "grave_plants");
+    public static Tag<Block> ANGEL_IGNORE = makeBlock(WeepingAngels.MODID, "angel_ignore");
     public static StructureFeature[] END_STRUCTURES = new StructureFeature[]{StructureFeature.END_CITY};
     public static StructureFeature[] OVERWORLD_STRUCTURES = new StructureFeature[]{
 
@@ -78,16 +77,16 @@ public class AngelUtil {
     public static StructureFeature[] NETHER_STRUCTURES = new StructureFeature[]{StructureFeature.BASTION_REMNANT, StructureFeature.NETHER_FOSSIL, StructureFeature.NETHER_BRIDGE};
     public static Random RAND = new Random();
 
-    public static Tag.Named<Item> makeItem(String domain, String path) {
-        return ItemTags.bind(new ResourceLocation(domain, path).toString());
+    public static Tag<Item> makeItem(String domain, String path) {
+        return TagRegistry.item(new ResourceLocation(domain, path));
     }
 
-    public static Tag.Named<Block> makeBlock(String domain, String path) {
-        return BlockTags.bind(new ResourceLocation(domain, path).toString());
+    public static Tag<Block> makeBlock(String domain, String path) {
+        return TagRegistry.block(new ResourceLocation(domain, path));
     }
 
     public static boolean isDarkForPlayer(QuantumLockedLifeform angel, LivingEntity living) {
-        return !living.hasEffect(MobEffects.NIGHT_VISION) && angel.level.getMaxLocalRawBrightness(angel.blockPosition()) <= 0 && angel.level.dimension().getRegistryName() != Level.OVERWORLD.getRegistryName() && !AngelUtil.handLightCheck(living);
+        return !living.hasEffect(MobEffects.NIGHT_VISION) && angel.level.getMaxLocalRawBrightness(angel.blockPosition()) <= 0 && angel.level.dimension() != Level.OVERWORLD && !AngelUtil.handLightCheck(living);
     }
 
     public static void updateBlock(LivingEntity entity, BlockPos pos, BlockState blockState, boolean breakBlock) {
