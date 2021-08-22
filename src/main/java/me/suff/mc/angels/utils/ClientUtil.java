@@ -6,22 +6,22 @@ import me.suff.mc.angels.client.renders.blockentities.CoffinRenderer;
 import me.suff.mc.angels.client.renders.blockentities.PlinthRender;
 import me.suff.mc.angels.client.renders.blockentities.SnowAngelRenderer;
 import me.suff.mc.angels.client.renders.blockentities.StatueRender;
-import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.WeepingAngel;
+import me.suff.mc.angels.common.init.WABlocks;
+import me.suff.mc.angels.common.init.WATiles;
 import me.suff.mc.angels.common.items.AngelSpawnerItem;
 import me.suff.mc.angels.common.items.DetectorItem;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -48,19 +48,20 @@ public class ClientUtil {
     }
 
     public static void doClientStuff() {
-        BlockEntityRenderers.register(WAObjects.Tiles.SNOW_ANGEL.get(), SnowAngelRenderer::new);
-        BlockEntityRenderers.register(WAObjects.Tiles.PLINTH.get(), PlinthRender::new);
-        BlockEntityRenderers.register(WAObjects.Tiles.STATUE.get(), StatueRender::new);
-        BlockEntityRenderers.register(WAObjects.Tiles.COFFIN.get(), CoffinRenderer::new);
+        WAModels.init();
+        BlockEntityRendererRegistry.INSTANCE.register(WATiles.SNOW_ANGEL, SnowAngelRenderer::new);
+        BlockEntityRendererRegistry.INSTANCE.register(WATiles.PLINTH, PlinthRender::new);
+        BlockEntityRendererRegistry.INSTANCE.register(WATiles.STATUE, StatueRender::new);
+        BlockEntityRendererRegistry.INSTANCE.register(WATiles.COFFIN, CoffinRenderer::new);
 
-        ItemBlockRenderTypes.setRenderLayer(WAObjects.Blocks.SNOW_ANGEL.get(), RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(WAObjects.Blocks.PLINTH.get(), RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(WAObjects.Blocks.STATUE.get(), RenderType.cutout());
-        ItemBlockRenderTypes.setRenderLayer(WAObjects.Blocks.KONTRON_ORE.get(), RenderType.cutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(WABlocks.SNOW_ANGEL, RenderType.cutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(WABlocks.PLINTH, RenderType.cutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(WABlocks.STATUE, RenderType.cutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(WABlocks.KONTRON_ORE, RenderType.cutout());
 
-        ItemProperties.register(WAObjects.Items.TIMEY_WIMEY_DETECTOR.get(), new ResourceLocation("angle"), (itemStack, clientLevel, livingEntity, p_174679_) -> DetectorItem.getTime(itemStack));
+        ItemProperties.register(WAObjects.Items.TIMEY_WIMEY_DETECTOR, new ResourceLocation("angle"), (itemStack, clientLevel, livingEntity, p_174679_) -> DetectorItem.getTime(itemStack));
 
-        ItemProperties.register(WAObjects.Items.ANGEL_SPAWNER.get(), new ResourceLocation(WeepingAngels.MODID, "angel_type"), (itemStack, clientWorld, livingEntity, something) -> {
+        ItemProperties.register(WAObjects.Items.ANGEL_SPAWNER, new ResourceLocation(WeepingAngels.MODID, "angel_type"), (itemStack, clientWorld, livingEntity, something) -> {
             if (itemStack == null || itemStack.isEmpty()) {
                 return 0;
             }

@@ -5,6 +5,7 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.blockentities.IPlinth;
 import me.suff.mc.angels.common.blockentities.PlinthBlockEntity;
 import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
+import me.suff.mc.angels.common.init.WABlocks;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -50,7 +51,7 @@ public class ChiselItem extends Item {
         }
 
         //Handle Statue
-        if (blockstate.getBlock() == WAObjects.Blocks.STATUE.get()) {
+        if (blockstate.getBlock() == WABlocks.STATUE) {
             StatueBlockEntity statueBlockEntity = (StatueBlockEntity) world.getBlockEntity(blockpos);
             if (player.isShiftKeyDown()) {
                 statueBlockEntity.setAngelType(AngelUtil.randomType());
@@ -62,7 +63,7 @@ public class ChiselItem extends Item {
         }
 
         //Handle Plinth
-        if (blockstate.getBlock() == WAObjects.Blocks.PLINTH.get()) {
+        if (blockstate.getBlock() == WABlocks.PLINTH) {
             PlinthBlockEntity statueTile = (PlinthBlockEntity) world.getBlockEntity(blockpos);
             if (player.isShiftKeyDown()) {
                 statueTile.setAngelType(AngelUtil.randomType());

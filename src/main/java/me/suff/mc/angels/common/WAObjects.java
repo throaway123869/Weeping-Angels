@@ -85,11 +85,11 @@ public class WAObjects {
     private static <T extends Entity> EntityType<T> registerBase(EntityType.EntityFactory<T> factory, IClientSpawner<T> client, MobCategory classification, float width, float height, int trackingRange, int updateFreq, boolean sendUpdate, String name) {
         ResourceLocation loc = new ResourceLocation(WeepingAngels.MODID, name);
         EntityType.Builder<T> builder = EntityType.Builder.of(factory, classification);
-        builder.setShouldReceiveVelocityUpdates(sendUpdate);
-        builder.setTrackingRange(trackingRange);
-        builder.setUpdateInterval(updateFreq);
+      //  builder.setShouldReceiveVelocityUpdates(sendUpdate);
+        builder.clientTrackingRange(trackingRange);
+        builder.updateInterval(updateFreq);
         builder.sized(width, height);
-        builder.setCustomClientFactory((spawnEntity, world) -> client.spawn(world));
+      //  builder.setCustomClientFactory((spawnEntity, world) -> client.spawn(world));
         return builder.build(loc.toString());
     }
 
@@ -97,12 +97,12 @@ public class WAObjects {
     private static <T extends Entity> EntityType<T> registerFireImmuneBase(EntityType.EntityFactory<T> factory, IClientSpawner<T> client, MobCategory classification, float width, float height, int trackingRange, int updateFreq, boolean sendUpdate, String name) {
         ResourceLocation loc = new ResourceLocation(WeepingAngels.MODID, name);
         EntityType.Builder<T> builder = EntityType.Builder.of(factory, classification);
-        builder.setShouldReceiveVelocityUpdates(sendUpdate);
-        builder.setTrackingRange(trackingRange);
-        builder.setUpdateInterval(updateFreq);
+    //    builder.setShouldReceiveVelocityUpdates(sendUpdate);
+        builder.clientTrackingRange(trackingRange);
+        builder.updateInterval(updateFreq);
         builder.fireImmune();
         builder.sized(width, height);
-        builder.setCustomClientFactory((spawnEntity, world) -> client.spawn(world));
+     //   builder.setCustomClientFactory((spawnEntity, world) -> client.spawn(world));
         return builder.build(loc.toString());
     }
 
@@ -120,28 +120,6 @@ public class WAObjects {
 
     public interface IClientSpawner<T> {
         T spawn(Level world);
-    }
-
-    public static class Tiles {
-        public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, WeepingAngels.MODID);
-
-        public static RegistryObject<BlockEntityType<SnowAngelBlockEntity>> SNOW_ANGEL = TILES.register("snow_angel", () -> registerTiles(SnowAngelBlockEntity::new, Blocks.SNOW_ANGEL.get()));
-        public static RegistryObject<BlockEntityType<PlinthBlockEntity>> PLINTH = TILES.register("plinth", () -> registerTiles(PlinthBlockEntity::new, Blocks.PLINTH.get()));
-        public static RegistryObject<BlockEntityType<StatueBlockEntity>> STATUE = TILES.register("statue", () -> registerTiles(StatueBlockEntity::new, Blocks.STATUE.get()));
-        public static RegistryObject<BlockEntityType<CoffinBlockEntity>> COFFIN = TILES.register("coffin", () -> registerTiles(CoffinBlockEntity::new, Blocks.COFFIN.get()));
-    }
-
-    public static class Blocks {
-        public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, WeepingAngels.MODID);
-        public static final DeferredRegister<Item> BLOCK_ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, WeepingAngels.MODID);
-
-        public static final RegistryObject<Block> SNOW_ANGEL = BLOCKS.register("snow_angel", () -> setUpBlock(new SnowArmBlock()));
-        public static final RegistryObject<Block> CHRONODYNE_GENERATOR = BLOCKS.register("chronodyne_generator", () -> setUpBlock(new ChronodyneGeneratorBlock()));
-        public static final RegistryObject<Block> PLINTH = BLOCKS.register("plinth", () -> setUpBlock(new PlinthBlock()));
-        public static final RegistryObject<Block> KONTRON_ORE = BLOCKS.register("kontron_ore", () -> setUpBlock(new MineableBlock(Material.STONE, SoundType.STONE, 3, 3)));
-        public static final RegistryObject<Block> KONTRON_ORE_DEEPSLATE = BLOCKS.register("kontron_ore_deepslate", () -> setUpBlock(new MineableBlock(Material.STONE, SoundType.DEEPSLATE, 4.5F, 3)));
-        public static final RegistryObject<Block> STATUE = BLOCKS.register("statue", () -> setUpBlock(new StatueBlock()));
-        public static final RegistryObject<Block> COFFIN = BLOCKS.register("coffin", () -> setUpBlock(new CoffinBlock(BlockBehaviour.Properties.of(Material.WOOD).noOcclusion())));
     }
 
     public static class Items {

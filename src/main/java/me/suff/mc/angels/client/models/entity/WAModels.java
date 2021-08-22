@@ -29,7 +29,7 @@ public class WAModels {
         return new ModelLayerLocation(new ResourceLocation(WeepingAngels.MODID, "model_" + weeping_angel), weeping_angel);
     }
 
-    public static void init(EntityRenderersEvent.RegisterLayerDefinitions registerLayerDefinitions) {
+    public static void init() {
         registerLayerDefinitions.registerLayerDefinition(ANGEL_ANGELA, ModelAngelaAngel::getModelData);
         registerLayerDefinitions.registerLayerDefinition(ANGEL_VILLAGER, ModelWeepingVillager::getModelData);
         registerLayerDefinitions.registerLayerDefinition(ANGEL_CLASSIC, ModelClassicAngel::getModelData);
