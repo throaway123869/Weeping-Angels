@@ -13,20 +13,6 @@ import java.util.function.Predicate;
 
 public class AngelTypes {
 
-    public static Predicate<WeepingAngel> FREE_REIGN = weepingAngelEntity -> true;
-    public static Predicate<WeepingAngel> BANNED_FROM_NETHER = weepingAngelEntity -> {
-        if (weepingAngelEntity.level.dimension() == Level.NETHER) {
-            weepingAngelEntity.setVarient(AngelUtil.RAND.nextBoolean() ? AngelTypes.BASALT : AngelTypes.QUARTZ);
-        }
-        return false;
-    };
-    public static Predicate<WeepingAngel> BANNED_FROM_OVERWORLD = weepingAngelEntity -> {
-        if (weepingAngelEntity.level.dimension() != Level.NETHER) {
-            weepingAngelEntity.setVarient(AngelTypes.NORMAL);
-        }
-        return false;
-    };
-    public static WeightedHandler WEIGHTED_VARIANTS = new WeightedHandler();
     private static final HashMap<String, AbstractVariant> VARIANTS = new HashMap<>();
     public static final AbstractVariant GOLD = register("gold", new MiningVariant(() -> new ItemStack(Blocks.GOLD_ORE), 25));
     public static final AbstractVariant DIAMOND = register("diamond", new MiningVariant(() -> new ItemStack(Blocks.DIAMOND_ORE), 5));
@@ -41,8 +27,22 @@ public class AngelTypes {
     public static final AbstractVariant EMERALD = register("emerald", new MiningVariant(() -> new ItemStack(Blocks.EMERALD_ORE), 20));
     public static final AbstractVariant COPPER = register("copper", new MiningVariant(() -> new ItemStack(Blocks.COPPER_ORE), 20));
     public static final AbstractVariant LAPIS = register("lapis_lazuli", new MiningVariant(() -> new ItemStack(Blocks.LAPIS_ORE), 10));
-    public static final AbstractVariant BASALT = register("basalt", new MiningVariant(() -> new ItemStack(Blocks.BASALT), 30, BANNED_FROM_OVERWORLD));
+    public static Predicate<WeepingAngel> FREE_REIGN = weepingAngelEntity -> true;
     public static final AbstractVariant QUARTZ = register("quartz", new MiningVariant(() -> new ItemStack(Blocks.NETHER_QUARTZ_ORE), 30, FREE_REIGN));
+    public static Predicate<WeepingAngel> BANNED_FROM_NETHER = weepingAngelEntity -> {
+        if (weepingAngelEntity.level.dimension() == Level.NETHER) {
+            weepingAngelEntity.setVarient(AngelUtil.RAND.nextBoolean() ? AngelTypes.BASALT : AngelTypes.QUARTZ);
+        }
+        return false;
+    };
+    public static Predicate<WeepingAngel> BANNED_FROM_OVERWORLD = weepingAngelEntity -> {
+        if (weepingAngelEntity.level.dimension() != Level.NETHER) {
+            weepingAngelEntity.setVarient(AngelTypes.NORMAL);
+        }
+        return false;
+    };
+    public static final AbstractVariant BASALT = register("basalt", new MiningVariant(() -> new ItemStack(Blocks.BASALT), 30, BANNED_FROM_OVERWORLD));
+    public static WeightedHandler WEIGHTED_VARIANTS = new WeightedHandler();
 
     private static AbstractVariant register(String name, AbstractVariant abstractVariant) {
         abstractVariant.setName(new ResourceLocation("weeping_angels", name));

@@ -57,7 +57,7 @@ public class DetectorItem extends Item {
                 if (!angels.isEmpty() && PlayerUtil.isInEitherHand((LivingEntity) entityIn, stack.getItem())) {
                     {
                         if (entityIn.tickCount % 20 == 0) {
-                            worldIn.playSound(null, entityIn.getX(), entityIn.getY(), entityIn.getZ(), WAObjects.Sounds.DING.get(), SoundSource.PLAYERS, 0.2F, 1.0F);
+                            worldIn.playSound(null, entityIn.getX(), entityIn.getY(), entityIn.getZ(), WAObjects.Sounds.DING, SoundSource.PLAYERS, 0.2F, 1.0F);
                         }
 
                         if (worldIn.random.nextInt(5) == 3 && WAConfig.CONFIG.chickenGoboom.get()) {

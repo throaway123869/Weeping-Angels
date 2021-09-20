@@ -19,7 +19,7 @@ public class Portal extends Mob {
     private static final EntityDataAccessor<Integer> TIME_ALIVE = SynchedEntityData.defineId(Portal.class, EntityDataSerializers.INT);
 
     public Portal(Level worldIn) {
-        super(WAObjects.EntityEntries.ANOMALY.get(), worldIn);
+        super(WAObjects.EntityEntries.ANOMALY, worldIn);
     }
 
     public Portal(EntityType<?> type, Level world) {
@@ -57,7 +57,7 @@ public class Portal extends Mob {
 
             setNoAi(true);
             if (tickCount == 1) {
-                playSound(WAObjects.Sounds.TELEPORT.get(), 1.0F, 1.0F);
+                playSound(WAObjects.Sounds.TELEPORT, 1.0F, 1.0F);
             }
 
             if (tickCount > lifeSpan()) {

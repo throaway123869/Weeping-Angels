@@ -1,7 +1,6 @@
 package me.suff.mc.angels.common;
 
 import me.suff.mc.angels.WeepingAngels;
-import me.suff.mc.angels.common.blocks.*;
 import me.suff.mc.angels.common.entities.ChronodyneGeneratorProjectile;
 import me.suff.mc.angels.common.entities.Portal;
 import me.suff.mc.angels.common.entities.WeepingAngel;
@@ -10,11 +9,8 @@ import me.suff.mc.angels.common.items.ChiselItem;
 import me.suff.mc.angels.common.items.ChronodyneGeneratorItem;
 import me.suff.mc.angels.common.items.DetectorItem;
 import me.suff.mc.angels.common.misc.WATabs;
-import me.suff.mc.angels.common.blockentities.CoffinBlockEntity;
-import me.suff.mc.angels.common.blockentities.PlinthBlockEntity;
-import me.suff.mc.angels.common.blockentities.SnowAngelBlockEntity;
-import me.suff.mc.angels.common.blockentities.StatueBlockEntity;
 import me.suff.mc.angels.utils.WADamageSource;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
@@ -24,11 +20,8 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -68,7 +61,9 @@ public class WAObjects {
     }
 
     private static SoundEvent setUpSound(String soundName) {
-        return new SoundEvent(new ResourceLocation(WeepingAngels.MODID, soundName));
+        SoundEvent soundEvent = new SoundEvent(new ResourceLocation(WeepingAngels.MODID, soundName));
+        Registry.register(Registry.SOUND_EVENT, new ResourceLocation(WeepingAngels.MODID, soundName), soundEvent);
+        return soundEvent;
     }
 
     @SubscribeEvent
@@ -85,11 +80,11 @@ public class WAObjects {
     private static <T extends Entity> EntityType<T> registerBase(EntityType.EntityFactory<T> factory, IClientSpawner<T> client, MobCategory classification, float width, float height, int trackingRange, int updateFreq, boolean sendUpdate, String name) {
         ResourceLocation loc = new ResourceLocation(WeepingAngels.MODID, name);
         EntityType.Builder<T> builder = EntityType.Builder.of(factory, classification);
-      //  builder.setShouldReceiveVelocityUpdates(sendUpdate);
+        //  builder.setShouldReceiveVelocityUpdates(sendUpdate);
         builder.clientTrackingRange(trackingRange);
         builder.updateInterval(updateFreq);
         builder.sized(width, height);
-      //  builder.setCustomClientFactory((spawnEntity, world) -> client.spawn(world));
+        //  builder.setCustomClientFactory((spawnEntity, world) -> client.spawn(world));
         return builder.build(loc.toString());
     }
 
@@ -97,12 +92,12 @@ public class WAObjects {
     private static <T extends Entity> EntityType<T> registerFireImmuneBase(EntityType.EntityFactory<T> factory, IClientSpawner<T> client, MobCategory classification, float width, float height, int trackingRange, int updateFreq, boolean sendUpdate, String name) {
         ResourceLocation loc = new ResourceLocation(WeepingAngels.MODID, name);
         EntityType.Builder<T> builder = EntityType.Builder.of(factory, classification);
-    //    builder.setShouldReceiveVelocityUpdates(sendUpdate);
+        //    builder.setShouldReceiveVelocityUpdates(sendUpdate);
         builder.clientTrackingRange(trackingRange);
         builder.updateInterval(updateFreq);
         builder.fireImmune();
         builder.sized(width, height);
-     //   builder.setCustomClientFactory((spawnEntity, world) -> client.spawn(world));
+        //   builder.setCustomClientFactory((spawnEntity, world) -> client.spawn(world));
         return builder.build(loc.toString());
     }
 
@@ -136,26 +131,24 @@ public class WAObjects {
 
     // Sounds
     public static class Sounds {
-        public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, WeepingAngels.MODID);
 
-        public static final RegistryObject<SoundEvent> ANGEL_SEEN = SOUNDS.register("angel_seen", () -> setUpSound("angel_seen"));
-        public static final RegistryObject<SoundEvent> STONE_SCRAP = SOUNDS.register("stone_scrap", () -> setUpSound("stone_scrap"));
-        public static final RegistryObject<SoundEvent> CHILD_RUN = SOUNDS.register("child_run", () -> setUpSound("child_run"));
-        public static final RegistryObject<SoundEvent> LAUGHING_CHILD = SOUNDS.register("laughing_child", () -> setUpSound("laughing_child"));
-        public static final RegistryObject<SoundEvent> LIGHT_BREAK = SOUNDS.register("light_break", () -> setUpSound("light_break"));
-        public static final RegistryObject<SoundEvent> ANGEL_AMBIENT = SOUNDS.register("angel_ambient", () -> setUpSound("angel_ambient"));
-        public static final RegistryObject<SoundEvent> DING = SOUNDS.register("ding", () -> setUpSound("ding"));
-        public static final RegistryObject<SoundEvent> BLOW = SOUNDS.register("blow", () -> setUpSound("blow"));
-        public static final RegistryObject<SoundEvent> ANGEL_DEATH = SOUNDS.register("angel_death", () -> setUpSound("angel_death"));
-        public static final RegistryObject<SoundEvent> ANGEL_NECK_SNAP = SOUNDS.register("angel_neck_snap", () -> setUpSound("angel_neck_snap"));
-        public static final RegistryObject<SoundEvent> PROJECTOR = SOUNDS.register("projector", () -> setUpSound("projector"));
-        public static final RegistryObject<SoundEvent> TELEPORT = SOUNDS.register("teleport", () -> setUpSound("teleport"));
-        public static final RegistryObject<SoundEvent> ANGEL_MOCKING = SOUNDS.register("angel_mocking", () -> setUpSound("angel_mocking"));
-        public static final RegistryObject<SoundEvent> TARDIS_TAKEOFF = SOUNDS.register("tardis_takeoff", () -> setUpSound("tardis_takeoff"));
-        public static final RegistryObject<SoundEvent> DISC_SALLY = SOUNDS.register("disc_sally", () -> setUpSound("disc_sally"));
-        public static final RegistryObject<SoundEvent> DISC_TIME_PREVAILS = SOUNDS.register("disc_time_prevails", () -> setUpSound("disc_time_prevails"));
-        public static final RegistryObject<SoundEvent> CATACOMB = SOUNDS.register("catacomb", () -> setUpSound("catacomb"));
-        public static final RegistryObject<SoundEvent> KNOCK = SOUNDS.register("knock", () -> setUpSound("knock"));
+        public static final SoundEvent ANGEL_SEEN = setUpSound("angel_seen");
+        public static final SoundEvent STONE_SCRAP = setUpSound("stone_scrap");
+        public static final SoundEvent CHILD_RUN = setUpSound("child_run");
+        public static final SoundEvent LAUGHING_CHILD = setUpSound("laughing_child");
+        public static final SoundEvent ANGEL_AMBIENT = setUpSound("angel_ambient");
+        public static final SoundEvent DING = setUpSound("ding");
+        public static final SoundEvent BLOW = setUpSound("blow");
+        public static final SoundEvent ANGEL_DEATH = setUpSound("angel_death");
+        public static final SoundEvent ANGEL_NECK_SNAP = setUpSound("angel_neck_snap");
+        public static final SoundEvent PROJECTOR = setUpSound("projector");
+        public static final SoundEvent TELEPORT = setUpSound("teleport");
+        public static final SoundEvent ANGEL_MOCKING = setUpSound("angel_mocking");
+        public static final SoundEvent TARDIS_TAKEOFF = setUpSound("tardis_takeoff");
+        public static final SoundEvent DISC_SALLY = setUpSound("disc_sally");
+        public static final SoundEvent DISC_TIME_PREVAILS = setUpSound("disc_time_prevails");
+        public static final SoundEvent CATACOMB = setUpSound("catacomb");
+        public static final SoundEvent KNOCK = setUpSound("knock");
     }
 
     // Entities

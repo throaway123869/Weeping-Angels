@@ -2,8 +2,6 @@ package me.suff.mc.angels.common.entities;
 
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.config.WAConfig;
-import me.suff.mc.angels.conversion.AngelInfection;
-import me.suff.mc.angels.conversion.AngelVirus;
 import me.suff.mc.angels.utils.ViewUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -102,7 +100,6 @@ public class QuantumLockedLifeform extends Monster implements Enemy {
         getEntityData().define(PREVBLOCKPOS, BlockPos.ZERO);
     }
 
-    
 
     @Override
     public void deserializeNBT(CompoundTag compound) {

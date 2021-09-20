@@ -4,7 +4,6 @@ import me.suff.mc.angels.WeepingAngels;
 import me.suff.mc.angels.client.models.block.*;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.event.EntityRenderersEvent;
 
 public class WAModels {
 

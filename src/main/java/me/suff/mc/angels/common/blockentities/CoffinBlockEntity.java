@@ -1,6 +1,7 @@
 package me.suff.mc.angels.common.blockentities;
 
 import me.suff.mc.angels.common.WAObjects;
+import me.suff.mc.angels.common.init.WATiles;
 import me.suff.mc.angels.utils.AngelUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -24,7 +25,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     private int ticks, pulses, knockTime;
 
     public CoffinBlockEntity(BlockPos pos, BlockState state) {
-        super(WAObjects.Tiles.COFFIN.get(), pos, state);
+        super(WATiles.COFFIN, pos, state);
     }
 
     public Coffin getCoffin() {
@@ -94,7 +95,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
 
         if (knockTime >= 0 && level.getGameTime() > 0) {
             if (level.getGameTime() % knockTime == 0 && !coffin.isPoliceBox() && !isOpen() && hasSkeleton()) {
-                level.playSound(null, getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(), WAObjects.Sounds.KNOCK.get(), SoundSource.BLOCKS, 1.0F * 16, 1.0F);
+                level.playSound(null, getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(), WAObjects.Sounds.KNOCK, SoundSource.BLOCKS, 1.0F * 16, 1.0F);
                 knockTime = RAND.nextInt(1800 + 10);
             }
         }
@@ -179,7 +180,7 @@ public class CoffinBlockEntity extends BlockEntity implements BlockEntityTicker<
     public void setDoingSomething(boolean doingSomething) {
         this.doingSomething = doingSomething;
         if (doingSomething) {
-            level.playSound(null, worldPosition, WAObjects.Sounds.TARDIS_TAKEOFF.get(), SoundSource.BLOCKS, 1, 1);
+            level.playSound(null, worldPosition, WAObjects.Sounds.TARDIS_TAKEOFF, SoundSource.BLOCKS, 1, 1);
         }
     }
 

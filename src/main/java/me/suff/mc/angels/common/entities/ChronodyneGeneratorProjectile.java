@@ -23,10 +23,9 @@ import net.minecraftforge.fmllegacy.network.NetworkHooks;
 /**
  * Created by Craig on 06/10/2019 @ 12:17
  */
-@OnlyIn(value = Dist.CLIENT, _interface = ItemSupplier.class)
 public class ChronodyneGeneratorProjectile extends ThrowableItemProjectile implements ItemSupplier {
 
-    ItemStack stack = new ItemStack(WAObjects.Items.CHRONODYNE_GENERATOR.get());
+    ItemStack stack = new ItemStack(WAObjects.Items.CHRONODYNE_GENERATOR);
 
     public ChronodyneGeneratorProjectile(EntityType<? extends ThrowableItemProjectile> type, Level worldIn) {
         super(type, worldIn);
@@ -41,7 +40,7 @@ public class ChronodyneGeneratorProjectile extends ThrowableItemProjectile imple
     }
 
     public ChronodyneGeneratorProjectile(Level world) {
-        this(WAObjects.EntityEntries.CHRONODYNE_GENERATOR.get(), world);
+        this(WAObjects.EntityEntries.CHRONODYNE_GENERATOR, world);
     }
 
     @Override
@@ -69,9 +68,9 @@ public class ChronodyneGeneratorProjectile extends ThrowableItemProjectile imple
                 BlockHitResult blockRayTraceResult = (BlockHitResult) result;
                 BlockPos pos = new BlockPos(blockRayTraceResult.getBlockPos().getX(), blockRayTraceResult.getBlockPos().getY() + 1, blockRayTraceResult.getBlockPos().getZ());
                 if (level.isEmptyBlock(pos) && !level.isEmptyBlock(pos.below()) || level.getBlockState(pos).getMaterial().equals(Material.PLANT)) {
-                    level.setBlockAndUpdate(pos, WAObjects.Blocks.CHRONODYNE_GENERATOR.get().defaultBlockState());
+                    level.setBlockAndUpdate(pos, WAObjects.Blocks.CHRONODYNE_GENERATOR.defaultBlockState());
                 } else {
-                    Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(WAObjects.Blocks.CHRONODYNE_GENERATOR.get()));
+                    Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(WAObjects.Blocks.CHRONODYNE_GENERATOR));
                 }
                 level.broadcastEntityEvent(this, (byte) 3);
                 remove(RemovalReason.KILLED);

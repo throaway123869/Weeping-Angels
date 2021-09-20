@@ -3,6 +3,7 @@ package me.suff.mc.angels.common.blockentities;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.WeepingAngel;
+import me.suff.mc.angels.common.init.WATiles;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
@@ -32,7 +33,7 @@ public class SnowAngelBlockEntity extends BlockEntity implements BlockEntityTick
     private int rotation = 0;
 
     public SnowAngelBlockEntity(BlockPos pos, BlockState blockState) {
-        super(WAObjects.Tiles.SNOW_ANGEL, pos, blockState);
+        super(WATiles.SNOW_ANGEL, pos, blockState);
     }
 
     public SnowAngelStages getSnowAngelStage() {

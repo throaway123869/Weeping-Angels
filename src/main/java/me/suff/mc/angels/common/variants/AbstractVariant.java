@@ -1,7 +1,6 @@
 package me.suff.mc.angels.common.variants;
 
 import me.suff.mc.angels.common.entities.WeepingAngel;
-import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.item.ItemStack;
@@ -49,12 +48,12 @@ public abstract class AbstractVariant {
         return variantTest.test(weepingAngel);
     }
 
-    public AbstractVariant setName(ResourceLocation name){
-        this.name = name;
-        return this;
-    }
-
     public ResourceLocation getName() {
         return name;
+    }
+
+    public AbstractVariant setName(ResourceLocation name) {
+        this.name = name;
+        return this;
     }
 }

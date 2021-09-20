@@ -1,8 +1,6 @@
 package me.suff.mc.angels.common.init;
 
 import me.suff.mc.angels.common.blocks.*;
-import me.suff.mc.angels.common.misc.WAConstants;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -23,7 +21,7 @@ public class WABlocks {
     public static final Block STATUE = new StatueBlock();
     public static final Block COFFIN = new CoffinBlock(BlockBehaviour.Properties.of(Material.WOOD).noOcclusion());
 
-    public static void init(){
+    public static void init() {
         Registry.register(Registry.BLOCK, new ResourceLocation(MODID, "snow_angel"), SNOW_ANGEL);
         Registry.register(Registry.BLOCK, new ResourceLocation(MODID, "chronodyne_generator"), CHRONODYNE_GENERATOR);
         Registry.register(Registry.BLOCK, new ResourceLocation(MODID, "plinth"), PLINTH);

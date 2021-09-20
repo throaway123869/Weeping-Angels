@@ -1,7 +1,6 @@
 package me.suff.mc.angels.common.items;
 
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
-import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.blockentities.IPlinth;
 import me.suff.mc.angels.common.blockentities.PlinthBlockEntity;
 import me.suff.mc.angels.common.blockentities.StatueBlockEntity;

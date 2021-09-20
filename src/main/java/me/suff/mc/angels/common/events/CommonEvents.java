@@ -62,7 +62,7 @@ public class CommonEvents {
         LivingEntity killed = event.getEntityLiving();
         DamageSource damageSource = event.getSource();
         if (damageSource == WAObjects.ANGEL_NECK_SNAP) {
-            killed.playSound(WAObjects.Sounds.ANGEL_NECK_SNAP.get(), 1, 1);
+            killed.playSound(WAObjects.Sounds.ANGEL_NECK_SNAP, 1, 1);
         }
     }
 
@@ -94,7 +94,7 @@ public class CommonEvents {
                     }
                 }
                 if (canPlaySound) {
-                    world.playSound(null, pos, WAObjects.Sounds.ANGEL_AMBIENT.get(), SoundSource.BLOCKS, 0.2F, 1);
+                    world.playSound(null, pos, WAObjects.Sounds.ANGEL_AMBIENT, SoundSource.BLOCKS, 0.2F, 1);
                 }
             }
         }
@@ -166,7 +166,7 @@ public class CommonEvents {
 
             if (!isAttackerHoldingPickaxe(attacker) || configValue == DamageType.NOTHING || configValue == DamageType.GENERATOR_ONLY) {
                 if (weepingAngel.level.random.nextInt(100) <= 20) {
-                    weepingAngel.playSound(weepingAngel.isCherub() ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, weepingAngel.getLaugh());
+                    weepingAngel.playSound(weepingAngel.isCherub() ? WAObjects.Sounds.LAUGHING_CHILD : WAObjects.Sounds.ANGEL_MOCKING, 1, weepingAngel.getLaugh());
                 }
                 if (attacker != null) {
                     attacker.hurt(WAObjects.STONE, 2F);

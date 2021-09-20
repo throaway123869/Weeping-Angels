@@ -5,6 +5,7 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.AngelEnums.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngel;
+import me.suff.mc.angels.common.init.WATiles;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
@@ -36,7 +37,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
 
 
     public StatueBlockEntity(BlockPos pos, BlockState state) {
-        super(WAObjects.Tiles.STATUE.get(), pos, state);
+        super(WATiles.STATUE, pos, state);
     }
 
     @Override

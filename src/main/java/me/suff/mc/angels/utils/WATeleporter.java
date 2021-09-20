@@ -13,7 +13,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.StructureFeature;
-import net.minecraftforge.fmllegacy.server.ServerLifecycleHooks;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -58,21 +57,12 @@ public class WATeleporter {
 
     public static boolean handleStructures(ServerPlayer player) {
 
-        StructureFeature[] targetStructure = null;
-
-        switch (player.level.dimension().location().toString()) {
-            case "minecraft:overworld":
-                targetStructure = AngelUtil.OVERWORLD_STRUCTURES;
-                break;
-
-            case "minecraft:end":
-                targetStructure = AngelUtil.END_STRUCTURES;
-                break;
-
-            case "minecraft:nether":
-                targetStructure = AngelUtil.NETHER_STRUCTURES;
-                break;
-        }
+        StructureFeature[] targetStructure = switch (player.level.dimension().location().toString()) {
+            case "minecraft:overworld" -> AngelUtil.OVERWORLD_STRUCTURES;
+            case "minecraft:end" -> AngelUtil.END_STRUCTURES;
+            case "minecraft:nether" -> AngelUtil.NETHER_STRUCTURES;
+            default -> null;
+        };
 
         if (targetStructure != null) {
             ServerLevel serverWorld = (ServerLevel) player.level;

@@ -1,7 +1,6 @@
 package me.suff.mc.angels.common.entities;
 
 import com.google.common.collect.ImmutableList;
-import me.suff.mc.angels.api.EventAngelBreakEvent;
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
 import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.ai.GoalWalkWhenNotWatched;
@@ -48,9 +47,8 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -67,7 +65,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
     private static final EntityDataAccessor<String> VARIANT = SynchedEntityData.defineId(WeepingAngel.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<Float> LAUGH = SynchedEntityData.defineId(WeepingAngel.class, EntityDataSerializers.FLOAT);
     private static final Predicate<Difficulty> DIFFICULTY = (difficulty) -> difficulty == Difficulty.EASY;
-    private static final SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD.get()};
+    private static final SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD};
     public long timeSincePlayedSound = 0;
 
     public WeepingAngel(EntityType<? extends QuantumLockedLifeform> type, Level world) {
@@ -130,7 +128,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverWorld, DifficultyInstance difficultyInstance, MobSpawnType spawnReason, @Nullable SpawnGroupData livingEntityData, @Nullable CompoundTag compoundNBT) {
-        playSound(WAObjects.Sounds.ANGEL_AMBIENT.get(), 0.5F, 1.0F);
+        playSound(WAObjects.Sounds.ANGEL_AMBIENT, 0.5F, 1.0F);
         getVariant().canVariantBeUsed(this);
         return super.finalizeSpawn(serverWorld, difficultyInstance, spawnReason, livingEntityData, compoundNBT);
     }
@@ -142,7 +140,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     @Override
     protected SoundEvent getDeathSound() {
-        return WAObjects.Sounds.ANGEL_DEATH.get();
+        return WAObjects.Sounds.ANGEL_DEATH;
     }
 
     @Override
@@ -318,7 +316,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
         if (canPlaySound) {
             if (WAConfig.CONFIG.playSeenSounds.get() && player.distanceTo(this) < 15) {
                 setTimeSincePlayedSound(System.currentTimeMillis());
-                ((ServerPlayer) player).connection.send(new ClientboundSoundPacket(WAObjects.Sounds.ANGEL_SEEN.get(), SoundSource.HOSTILE, player.getX(), player.getY(), player.getZ(), 0.1F, 1.0F));
+                ((ServerPlayer) player).connection.send(new ClientboundSoundPacket(WAObjects.Sounds.ANGEL_SEEN, SoundSource.HOSTILE, player.getX(), player.getY(), player.getZ(), 0.1F, 1.0F));
             }
         }
     }
@@ -332,10 +330,10 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
             if (isCherub()) {
                 if (level.random.nextInt(5) == 4) {
-                    playSound(WAObjects.Sounds.CHILD_RUN.get(), 0.1F, soundtype.getPitch());
+                    playSound(WAObjects.Sounds.CHILD_RUN, 0.1F, soundtype.getPitch());
                 }
             } else if (WAConfig.CONFIG.playScrapeSounds.get() && level.random.nextInt(5) == 4) {
-                playSound(WAObjects.Sounds.STONE_SCRAP.get(), 0.1F, soundtype.getPitch());
+                playSound(WAObjects.Sounds.STONE_SCRAP, 0.1F, soundtype.getPitch());
             }
         }
     }

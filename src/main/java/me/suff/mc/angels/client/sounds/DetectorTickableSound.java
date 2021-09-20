@@ -12,7 +12,7 @@ public class DetectorTickableSound extends AbstractTickableSoundInstance {
     private float pitch = 0.0F;
 
     public DetectorTickableSound(Player playerEntity) {
-        super(WAObjects.Sounds.PROJECTOR.get(), SoundSource.PLAYERS);
+        super(WAObjects.Sounds.PROJECTOR, SoundSource.PLAYERS);
         this.playerEntity = playerEntity;
         this.looping = true;
         this.delay = 0;

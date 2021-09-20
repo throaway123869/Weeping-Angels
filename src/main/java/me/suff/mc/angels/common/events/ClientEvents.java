@@ -1,6 +1,5 @@
 package me.suff.mc.angels.common.events;
 
-import me.suff.mc.angels.client.models.entity.WAModels;
 import me.suff.mc.angels.client.sounds.DetectorTickableSound;
 import me.suff.mc.angels.common.AngelParticles;
 import me.suff.mc.angels.common.WAObjects;
@@ -64,7 +63,7 @@ public class ClientEvents {
         if (isInCatacombs) {
             sound.stop(null, SoundSource.MUSIC);
             if (iSound == null) {
-                iSound = SimpleSoundInstance.forAmbientAddition(WAObjects.Sounds.CATACOMB.get());
+                iSound = SimpleSoundInstance.forAmbientAddition(WAObjects.Sounds.CATACOMB);
             }
             if (!sound.isActive(iSound)) {
                 sound.play(iSound);
