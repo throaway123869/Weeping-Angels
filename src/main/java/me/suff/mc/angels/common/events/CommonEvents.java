@@ -73,16 +73,16 @@ public class CommonEvents {
         BlockPos pos = event.getPos();
         Player player = event.getPlayer();
 
-        boolean isGraveYard = world.structureFeatureManager().getStructureAt(pos, true, WAWorld.GRAVEYARD.get()).isValid();
+        boolean isGraveYard = world.structureFeatureManager().getStructureAt(pos, true, WAWorld.GRAVEYARD).isValid();
 
         if (world.getBlockState(pos).getBlock() instanceof ChestBlock chestBlock) {
             if (isGraveYard && !player.getAbilities().instabuild) {
-                BoundingBox box = world.structureFeatureManager().getStructureAt(pos, true, WAWorld.GRAVEYARD.get()).getBoundingBox();
+                BoundingBox box = world.structureFeatureManager().getStructureAt(pos, true, WAWorld.GRAVEYARD).getBoundingBox();
                 boolean canPlaySound = false;
                 for (Iterator<BlockPos> iterator = BlockPos.betweenClosedStream(new BlockPos(box.maxX(), box.maxY(), box.maxZ()), new BlockPos(box.minX(), box.minY(), box.minZ())).iterator(); iterator.hasNext(); ) {
                     BlockPos blockPos = iterator.next();
                     BlockState blockState = world.getBlockState(blockPos);
-                    if (blockState.getBlock() == WAObjects.Blocks.STATUE.get()) {
+                    if (blockState.getBlock() == WAObjects.Blocks.STATUE) {
                         canPlaySound = true;
                         StatueBlockEntity statueTile = (StatueBlockEntity) world.getBlockEntity(blockPos);
                         WeepingAngel angel = new WeepingAngel(world);
@@ -115,7 +115,7 @@ public class CommonEvents {
     public static void onDamage(LivingAttackEvent event) {
         if (event.getEntityLiving().level.isClientSide) return;
 
-        DamageType configValue = WAConfig.CONFIG.damageType.get();
+        DamageType configValue = WAConfig.CONFIG.damageType;
         DamageSource source = event.getSource();
         Entity attacker = event.getSource().getEntity();
         LivingEntity hurt = event.getEntityLiving();
@@ -124,7 +124,7 @@ public class CommonEvents {
             return;
         }
 
-        if (hurt.getType() == WAObjects.EntityEntries.WEEPING_ANGEL.get()) {
+        if (hurt.getType() == WAObjects.EntityEntries.WEEPING_ANGEL) {
             WeepingAngel weepingAngel = (WeepingAngel) hurt;
 
             switch (configValue) {
@@ -184,7 +184,7 @@ public class CommonEvents {
             LivingEntity livingEntity = (LivingEntity) attacker;
             stack.hurtAndBreak(serverWorld.random.nextInt(4), livingEntity, living -> {
                 boolean isCherub = weepingAngel.isCherub();
-                weepingAngel.playSound(isCherub ? WAObjects.Sounds.LAUGHING_CHILD.get() : WAObjects.Sounds.ANGEL_MOCKING.get(), 1, weepingAngel.getLaugh());
+                weepingAngel.playSound(isCherub ? WAObjects.Sounds.LAUGHING_CHILD : WAObjects.Sounds.ANGEL_MOCKING, 1, weepingAngel.getLaugh());
                 livingEntity.broadcastBreakEvent(InteractionHand.MAIN_HAND);
             });
         }
@@ -196,7 +196,7 @@ public class CommonEvents {
     public static void onBiomeLoad(BiomeLoadingEvent biomeLoadingEvent) {
         ResourceKey<Biome> biomeRegistryKey = ResourceKey.create(Registry.BIOME_REGISTRY, biomeLoadingEvent.getName());
         Biome.BiomeCategory biomeCategory = biomeLoadingEvent.getCategory();
-        if (WAConfig.CONFIG.arms.get()) {
+        if (WAConfig.CONFIG.arms) {
             if (biomeCategory == Biome.BiomeCategory.ICY || biomeRegistryKey.getRegistryName().toString().contains("snow")) {
                 WeepingAngels.LOGGER.info("Added Snow Angels to: " + biomeLoadingEvent.getName());
                 biomeLoadingEvent.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION, WAWorld.ConfiguredFeatures.CONFIGURED_SNOW_ANGEL).build();
@@ -204,14 +204,14 @@ public class CommonEvents {
         }
 
         if (biomeCategory != Biome.BiomeCategory.NETHER && biomeCategory != Biome.BiomeCategory.THEEND) {
-            if (WAConfig.CONFIG.genOres.get()) {
+            if (WAConfig.CONFIG.genOres) {
                 biomeLoadingEvent.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, WAWorld.ConfiguredFeatures.CONFIGURED_KONTRON_ORE);
             }
             if (biomeCategory != Biome.BiomeCategory.NONE && biomeCategory != Biome.BiomeCategory.OCEAN) {
 
                 //Graveyard Spawning - We MUST use a COMMON Config option because only COMMON config is fired early enough. Server Configs fire too late to allow us to use them to configure world gen stuff.
                 boolean shouldAdd = biomeCategory != Biome.BiomeCategory.ICY && biomeCategory != Biome.BiomeCategory.MUSHROOM && biomeCategory != Biome.BiomeCategory.JUNGLE && biomeCategory != Biome.BiomeCategory.OCEAN && biomeCategory != Biome.BiomeCategory.RIVER && biomeCategory != Biome.BiomeCategory.DESERT;
-                if (WAConfig.CONFIG.genGraveyard.get()) {
+                if (WAConfig.CONFIG.genGraveyard) {
                     if (shouldAdd) {
                         biomeLoadingEvent.getGeneration().getStructures().add(() -> WAWorld.ConfiguredFeatures.CONFIGURED_GRAVEYARD);
                         WeepingAngels.LOGGER.info("Added Graveyard to: " + biomeLoadingEvent.getName());
@@ -219,7 +219,7 @@ public class CommonEvents {
                 }
 
                 //Catacombs Spawning - We MUST use a COMMON Config option because only COMMON config is fired early enough. Server Configs fire too late to allow us to use them to configure world gen stuff.
-                if (WAConfig.CONFIG.genCatacombs.get()) {
+                if (WAConfig.CONFIG.genCatacombs) {
                     if (shouldAdd) {
                         biomeLoadingEvent.getGeneration().getStructures().add(() -> WAWorld.ConfiguredFeatures.CONFIGURED_CATACOMBS);
                         WeepingAngels.LOGGER.info("Added Catacombs to: " + biomeLoadingEvent.getName());
@@ -228,9 +228,9 @@ public class CommonEvents {
 
 
                 //Angel Mob Spawns. Use this event to allow spawn rate to be customised on world options screen and not require restart.
-                WAConfig.CONFIG.allowedBiomes.get().forEach(rl -> {
-                    if (rl.equalsIgnoreCase(biomeRegistryKey.getRegistryName().toString())) {
-                        biomeLoadingEvent.getSpawns().addSpawn(WAConfig.CONFIG.spawnType.get(), new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL.get(), WAConfig.CONFIG.spawnWeight.get(), WAConfig.CONFIG.minSpawn.get(), WAConfig.CONFIG.maxSpawn.get()));
+                WAConfig.CONFIG.allowedBiomes.forEach(rl -> {
+                    if (rl.equalsIgnoreCase(biomeRegistryKey.location().toString())) {
+                        biomeLoadingEvent.getSpawns().addSpawn(WAConfig.CONFIG.spawnType, new MobSpawnSettings.SpawnerData(WAObjects.EntityEntries.WEEPING_ANGEL, WAConfig.CONFIG.spawnWeight, WAConfig.CONFIG.minSpawn, WAConfig.CONFIG.maxSpawn));
                     }
                 });
             }
@@ -253,8 +253,8 @@ public class CommonEvents {
             //Only spawn Graveyards in the Overworld structure list
             if (serverWorld.dimension().equals(Level.OVERWORLD)) {
                 Map<StructureFeature<?>, StructureFeatureConfiguration> tempMap = new HashMap<>(serverWorld.getChunkSource().generator.getSettings().structureConfig());
-                tempMap.put(WAWorld.GRAVEYARD.get(), StructureSettings.DEFAULTS.get(WAWorld.GRAVEYARD.get()));
-                tempMap.put(WAWorld.CATACOMBS.get(), StructureSettings.DEFAULTS.get(WAWorld.CATACOMBS.get()));
+                tempMap.put(WAWorld.GRAVEYARD, StructureSettings.DEFAULTS.get(WAWorld.GRAVEYARD));
+                tempMap.put(WAWorld.CATACOMBS, StructureSettings.DEFAULTS.get(WAWorld.CATACOMBS));
                 serverWorld.getChunkSource().generator.getSettings().structureConfig = tempMap;
             }
         }

@@ -40,11 +40,6 @@ public class ClientEvents {
     }
 
     @SubscribeEvent
-    public static void registerParticles(ParticleFactoryRegisterEvent event) {
-        Minecraft.getInstance().particleEngine.register(AngelParticles.INFECTION.get(), new AngelParticle.Factory());
-    }
-
-    @SubscribeEvent
     public static void onBlockHighlight(DrawSelectionEvent.HighlightBlock event) {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.hitResult != null && minecraft.hitResult.getType() == HitResult.Type.BLOCK) {

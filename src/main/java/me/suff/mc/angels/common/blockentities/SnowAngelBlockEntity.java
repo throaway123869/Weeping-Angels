@@ -1,6 +1,5 @@
 package me.suff.mc.angels.common.blockentities;
 
-import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.WeepingAngel;
 import me.suff.mc.angels.common.init.WATiles;

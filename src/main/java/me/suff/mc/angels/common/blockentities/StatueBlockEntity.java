@@ -1,7 +1,6 @@
 package me.suff.mc.angels.common.blockentities;
 
 import me.suff.mc.angels.client.poses.WeepingAngelPose;
-import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.AngelEnums.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngel;
@@ -46,7 +45,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
         setPose(WeepingAngelPose.getPose(compound.getString("pose")));
         type = compound.getString("model");
         if (compound.contains(WAConstants.VARIENT)) {
-            setAngelVarients(AngelTypes.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(compound.getString(WAConstants.VARIENT))));
+            setAngelVarients(AngelTypes.VARIANTS_REGISTRY.getValue(new ResourceLocation(compound.getString(WAConstants.VARIENT))));
         }
     }
 
@@ -97,7 +96,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
         if (level.isClientSide) return;
 
         ServerLevel world = (ServerLevel) level;
-        boolean isGraveYard = world.structureFeatureManager().getStructureAt(getBlockPos(), true, WAWorld.GRAVEYARD.get()).isValid();
+        boolean isGraveYard = world.structureFeatureManager().getStructureAt(getBlockPos(), true, WAWorld.GRAVEYARD).isValid();
 
         if (level.getGameTime() % 200 == 0 && isGraveYard && world.random.nextBoolean()) {
             Player playerentity = this.level.getNearestPlayer(this.getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(), 50.0D, false);
@@ -110,7 +109,7 @@ public class StatueBlockEntity extends BlockEntity implements BlockEntityTicker<
             }
         }
 
-        if (WAConfig.CONFIG.spawnFromBlocks.get() && level.getBestNeighborSignal(worldPosition) > 0 && level.getBlockEntity(worldPosition) instanceof StatueBlockEntity) {
+        if (WAConfig.CONFIG.spawnFromBlocks && level.getBestNeighborSignal(worldPosition) > 0 && level.getBlockEntity(worldPosition) instanceof StatueBlockEntity) {
             WeepingAngel angel = new WeepingAngel(level);
             angel.setVarient(angelVariant);
             angel.setType(type);

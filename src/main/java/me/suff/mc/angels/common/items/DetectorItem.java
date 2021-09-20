@@ -60,7 +60,7 @@ public class DetectorItem extends Item {
                             worldIn.playSound(null, entityIn.getX(), entityIn.getY(), entityIn.getZ(), WAObjects.Sounds.DING, SoundSource.PLAYERS, 0.2F, 1.0F);
                         }
 
-                        if (worldIn.random.nextInt(5) == 3 && WAConfig.CONFIG.chickenGoboom.get()) {
+                        if (worldIn.random.nextInt(5) == 3 && WAConfig.CONFIG.chickenGoboom) {
                             for (Chicken chick : entityIn.level.getEntitiesOfClass(Chicken.class, entityIn.getBoundingBox().inflate(30, 30, 30))) {
                                 if (entityIn.level.random.nextInt(100) < 5) {
                                     chick.level.explode(chick, chick.getX(), chick.getY(), chick.getZ(), 0.5F, Explosion.BlockInteraction.NONE);

@@ -73,21 +73,21 @@ public class WeepingAngel extends QuantumLockedLifeform {
     }
 
     public WeepingAngel(Level world) {
-        super(world, WAObjects.EntityEntries.WEEPING_ANGEL.get());
+        super(world, WAObjects.EntityEntries.WEEPING_ANGEL);
         goalSelector.addGoal(0, new BreakDoorGoal(this, DIFFICULTY));
         goalSelector.addGoal(5, new MoveTowardsRestrictionGoal(this, 1.0D));
         goalSelector.addGoal(7, new GoalWalkWhenNotWatched(this, 1.0D));
-        xpReward = WAConfig.CONFIG.xpGained.get();
+        xpReward = WAConfig.CONFIG.xpGained;
     }
 
 
     public static AttributeSupplier.Builder createAttributes() {
         return createMonsterAttributes().
-                add(Attributes.ATTACK_DAMAGE, WAConfig.CONFIG.damage.get()).
+                add(Attributes.ATTACK_DAMAGE, WAConfig.CONFIG.damage).
                 add(Attributes.MAX_HEALTH, 50D).
                 add(Attributes.KNOCKBACK_RESISTANCE, 1.0D).
                 add(Attributes.MOVEMENT_SPEED, 0.8D).
-                add(WAAttributes.BLOCK_BREAK_RANGE.get(), WAConfig.CONFIG.blockBreakRange.get()).
+                add(WAAttributes.BLOCK_BREAK_RANGE, WAConfig.CONFIG.blockBreakRange).
                 add(Attributes.ARMOR, 2.0D);
     }
 
@@ -118,7 +118,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
     }
 
     public AbstractVariant getVariant() {
-        return AngelTypes.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(getEntityData().get(VARIANT)));
+        return AngelTypes.VARIANTS_REGISTRY.getValue(new ResourceLocation(getEntityData().get(VARIANT)));
     }
 
     public void setVarient(AbstractVariant varient) {
@@ -173,13 +173,13 @@ public class WeepingAngel extends QuantumLockedLifeform {
             boolean isCherub = isCherub();
             if (isCherub) {
                 dealDamage(serverPlayerEntity);
-                if (WAConfig.CONFIG.torchBlowOut.get()) {
+                if (WAConfig.CONFIG.torchBlowOut) {
                     AngelUtil.extinguishHand(serverPlayerEntity, this);
                 }
                 return true;
             }
 
-            boolean shouldTeleport = random.nextInt(10) < 5 && getHealth() > 5 && !isInCatacomb() || WAConfig.CONFIG.justTeleport.get();
+            boolean shouldTeleport = random.nextInt(10) < 5 && getHealth() > 5 && !isInCatacomb() || WAConfig.CONFIG.justTeleport;
             if (shouldTeleport) {
                 teleportInteraction(serverPlayerEntity);
                 return true;
@@ -192,7 +192,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     public boolean isInCatacomb() {
         if (level instanceof ServerLevel serverWorld) {
-            BlockPos catacomb = serverWorld.getLevel().findNearestMapFeature(WAWorld.CATACOMBS.get(), blockPosition(), 100, false);
+            BlockPos catacomb = serverWorld.getLevel().findNearestMapFeature(WAWorld.CATACOMBS, blockPosition(), 100, false);
 
             if (catacomb == null) {
                 return false;
@@ -282,7 +282,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
         if (compound.contains(WAConstants.TYPE)) setType(compound.getString(WAConstants.TYPE));
 
         if (compound.contains(WAConstants.VARIENT))
-            setVarient(Objects.requireNonNull(AngelTypes.VARIANTS_REGISTRY.get().getValue(new ResourceLocation(compound.getString(WAConstants.VARIENT)))));
+            setVarient(Objects.requireNonNull(AngelTypes.VARIANTS_REGISTRY.getValue(new ResourceLocation(compound.getString(WAConstants.VARIENT)))));
     }
 
     @Override
@@ -314,7 +314,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
     private void playSeenSound(Player player) {
         boolean canPlaySound = !player.isCreative() && getTimeSincePlayedSound() == 0 || System.currentTimeMillis() - getTimeSincePlayedSound() >= 20000;
         if (canPlaySound) {
-            if (WAConfig.CONFIG.playSeenSounds.get() && player.distanceTo(this) < 15) {
+            if (WAConfig.CONFIG.playSeenSounds && player.distanceTo(this) < 15) {
                 setTimeSincePlayedSound(System.currentTimeMillis());
                 ((ServerPlayer) player).connection.send(new ClientboundSoundPacket(WAObjects.Sounds.ANGEL_SEEN, SoundSource.HOSTILE, player.getX(), player.getY(), player.getZ(), 0.1F, 1.0F));
             }
@@ -332,7 +332,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
                 if (level.random.nextInt(5) == 4) {
                     playSound(WAObjects.Sounds.CHILD_RUN, 0.1F, soundtype.getPitch());
                 }
-            } else if (WAConfig.CONFIG.playScrapeSounds.get() && level.random.nextInt(5) == 4) {
+            } else if (WAConfig.CONFIG.playScrapeSounds && level.random.nextInt(5) == 4) {
                 playSound(WAObjects.Sounds.STONE_SCRAP, 0.1F, soundtype.getPitch());
             }
         }
@@ -349,7 +349,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
             setPose(Objects.requireNonNull(WeepingAngelPose.HIDING));
         }
 
-        if (random.nextBoolean() && WAConfig.CONFIG.blockBreaking.get() && isSeen() && level.getGameRules().getRule(GameRules.RULE_MOBGRIEFING).get()) {
+        if (random.nextBoolean() && WAConfig.CONFIG.blockBreaking && isSeen() && level.getGameRules().getRule(GameRules.RULE_MOBGRIEFING).get()) {
             replaceBlocks();
         }
     }
@@ -371,7 +371,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
         if (level.getMaxLocalRawBrightness(blockPosition()) == 0) {
             return;
         }
-        int range = (int) getAttributeValue(WAAttributes.BLOCK_BREAK_RANGE.get());
+        int range = (int) getAttributeValue(WAAttributes.BLOCK_BREAK_RANGE);
         for (Iterator<BlockPos> iterator = BlockPos.withinManhattanStream(blockPosition(), range, 3, range).iterator(); iterator.hasNext(); ) {
             BlockPos pos = iterator.next();
             ServerLevel serverWorld = (ServerLevel) level;
@@ -422,7 +422,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     private void teleportInteraction(ServerPlayer player) {
         if (level.isClientSide) return;
-        AngelUtil.EnumTeleportType type = WAConfig.CONFIG.teleportType.get();
+        AngelUtil.EnumTeleportType type = WAConfig.CONFIG.teleportType;
         switch (type) {
 
             case DONT:
@@ -436,10 +436,10 @@ public class WeepingAngel extends QuantumLockedLifeform {
                 }));
                 break;
             case RANDOM_PLACE:
-                double x = player.getX() + random.nextInt(WAConfig.CONFIG.teleportRange.get());
-                double z = player.getZ() + random.nextInt(WAConfig.CONFIG.teleportRange.get());
+                double x = player.getX() + random.nextInt(WAConfig.CONFIG.teleportRange);
+                double z = player.getZ() + random.nextInt(WAConfig.CONFIG.teleportRange);
 
-                ServerLevel teleportWorld = WAConfig.CONFIG.angelDimTeleport.get() ? WATeleporter.getRandomDimension(random) : (ServerLevel) player.level;
+                ServerLevel teleportWorld = WAConfig.CONFIG.angelDimTeleport ? WATeleporter.getRandomDimension(random) : (ServerLevel) player.level;
 
                 ChunkPos chunkPos = new ChunkPos(new BlockPos(x, 0, z));
                 teleportWorld.setChunkForced(chunkPos.x, chunkPos.z, true);

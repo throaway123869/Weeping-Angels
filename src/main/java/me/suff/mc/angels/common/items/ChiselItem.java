@@ -37,8 +37,7 @@ public class ChiselItem extends Item {
         Player player = context.getPlayer();
 
 
-        if (world.getBlockEntity(blockpos) instanceof IPlinth) {
-            IPlinth plinth = (IPlinth) world.getBlockEntity(blockpos);
+        if (world.getBlockEntity(blockpos) instanceof IPlinth plinth) {
             if (player.isShiftKeyDown()) {
                 plinth.changeModel();
                 plinth.sendUpdatesToClient();

@@ -5,6 +5,7 @@ import me.suff.mc.angels.common.WAObjects;
 import me.suff.mc.angels.common.entities.AngelEnums;
 import me.suff.mc.angels.common.entities.AngelEnums.AngelType;
 import me.suff.mc.angels.common.entities.WeepingAngel;
+import me.suff.mc.angels.common.init.WATiles;
 import me.suff.mc.angels.common.misc.WAConstants;
 import me.suff.mc.angels.common.variants.AbstractVariant;
 import me.suff.mc.angels.common.variants.AngelTypes;
@@ -31,7 +32,7 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
     private AbstractVariant angelVariant = AngelTypes.NORMAL;
 
     public PlinthBlockEntity(BlockPos blockPos, BlockState state) {
-        super(WAObjects.Tiles.PLINTH, blockPos, state);
+        super(WATiles.PLINTH, blockPos, state);
     }
 
     public boolean getHasSpawned() {
@@ -117,8 +118,7 @@ public class PlinthBlockEntity extends BlockEntity implements BlockEntityTicker<
         }
 
 
-        if (WAConfig.CONFIG.spawnFromBlocks.get() && level.getBestNeighborSignal(worldPosition) > 0 && level.getBlockEntity(worldPosition) instanceof PlinthBlockEntity) {
-            PlinthBlockEntity plinth = (PlinthBlockEntity) level.getBlockEntity(worldPosition);
+        if (WAConfig.CONFIG.spawnFromBlocks && level.getBestNeighborSignal(worldPosition) > 0 && level.getBlockEntity(worldPosition) instanceof PlinthBlockEntity plinth) {
             if (!plinth.getHasSpawned()) {
                 WeepingAngel angel = new WeepingAngel(level);
                 angel.setType(type);

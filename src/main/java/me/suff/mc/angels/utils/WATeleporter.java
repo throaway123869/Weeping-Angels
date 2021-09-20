@@ -43,7 +43,7 @@ public class WATeleporter {
         ArrayList<ServerLevel> allowedDimensions = Lists.newArrayList(dimensions);
 
         for (ServerLevel dimension : dimensions) {
-            for (String dimName : WAConfig.CONFIG.notAllowedDimensions.get()) {
+            for (String dimName : WAConfig.CONFIG.notAllowedDimensions) {
                 if (dimension.dimension().location().toString().equalsIgnoreCase(dimName)) {
                     allowedDimensions.remove(dimension);
                 }
@@ -76,7 +76,7 @@ public class WATeleporter {
     }
 
     public static void teleportPlayerTo(ServerPlayer player, BlockPos destinationPos, ServerLevel targetDimension) {
-        Network.sendTo(new MessageSFX(WAObjects.Sounds.TELEPORT.get().getRegistryName()), player);
+        Network.sendTo(new MessageSFX(WAObjects.Sounds.TELEPORT.getLocation()), player);
         player.teleportTo(targetDimension, destinationPos.getX(), destinationPos.getY(), destinationPos.getZ(), player.yHeadRot, player.xRotO);
     }
 

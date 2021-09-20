@@ -8,7 +8,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class WATabs {
 
-    public static CreativeModeTab MAIN_TAB = new CreativeModeTab("angels") {
+    public static CreativeModeTab MAIN_TAB = new CreativeModeTab(CreativeModeTab.TABS.length - 1,"angels") {
         @Override
         public ItemStack makeIcon() {
             return AngelSpawnerItem.setType(new ItemStack(WAObjects.Items.ANGEL_SPAWNER), AngelEnums.AngelType.ANGELA_MC);

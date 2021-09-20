@@ -22,14 +22,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fmllegacy.RegistryObject;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 
-import java.util.Collection;
 
 @Mod.EventBusSubscriber(modid = WeepingAngels.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class WAObjects {
@@ -38,17 +31,13 @@ public class WAObjects {
 
     public static ResourceLocation CRYPT_LOOT = new ResourceLocation(WeepingAngels.MODID, "chests/crypt");
 
-    private static Item setUpItem(Item item) {
-        return item;
-    }
-
     private static Block setUpBlock(Block block) {
         return block;
     }
 
     private static void genBlockItems(Block... blocks) {
         for (Block block : blocks) {
-            Blocks.BLOCK_ITEMS.register(block.getRegistryName().getPath(), () -> setUpItem(new BlockItem(block, new Item.Properties().tab(WATabs.MAIN_TAB))));
+            Blocks.BLOCK_makeItem(block.getRegistryName().getPath(), new BlockItem(block, new Item.Properties().tab(WATabs.MAIN_TAB))));
         }
     }
 
@@ -56,7 +45,7 @@ public class WAObjects {
     private static void genBlockItems(Collection<RegistryObject<Block>> collection) {
         for (RegistryObject<Block> block : collection) {
             CreativeModeTab itemGroup = WATabs.MAIN_TAB;
-            Blocks.BLOCK_ITEMS.register(block.get().getRegistryName().getPath(), () -> setUpItem(new BlockItem(block.get(), new Item.Properties().tab(itemGroup))));
+            Blocks.BLOCK_makeItem(block.get().getRegistryName().getPath(), new BlockItem(block.get(), new Item.Properties().tab(itemGroup))));
         }
     }
 
@@ -118,15 +107,19 @@ public class WAObjects {
     }
 
     public static class Items {
-        public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, WeepingAngels.MODID);
 
-        public static final RegistryObject<Item> TIMEY_WIMEY_DETECTOR = ITEMS.register("timey_wimey_detector", DetectorItem::new);
-        public static final RegistryObject<Item> CHRONODYNE_GENERATOR = ITEMS.register("chronodyne_generator", ChronodyneGeneratorItem::new);
-        public static final RegistryObject<Item> ANGEL_SPAWNER = ITEMS.register("weeping_angel", () -> setUpItem(new AngelSpawnerItem()));
-        public static final RegistryObject<Item> KONTRON_INGOT = ITEMS.register("kontron_ingot", () -> setUpItem(new Item(new Item.Properties().tab(WATabs.MAIN_TAB))));
-        public static final RegistryObject<Item> CHISEL = ITEMS.register("chisel", () -> setUpItem(new ChiselItem(new Item.Properties().stacksTo(1).tab(WATabs.MAIN_TAB))));
-        public static final RegistryObject<Item> SALLY = ITEMS.register("music_disc_sally", () -> setUpItem(new RecordItem(6, Sounds.DISC_SALLY, (new Item.Properties()).stacksTo(1).tab(CreativeModeTab.TAB_MISC).rarity(Rarity.RARE))));
-        public static final RegistryObject<Item> TIME_PREVAILS = ITEMS.register("music_disc_time_prevails", () -> setUpItem(new RecordItem(6, Sounds.DISC_TIME_PREVAILS, (new Item.Properties()).stacksTo(1).tab(CreativeModeTab.TAB_MISC).rarity(Rarity.RARE))));
+        public static final Item TIMEY_WIMEY_DETECTOR = makeItem("timey_wimey_detector", new DetectorItem());
+        public static final Item CHRONODYNE_GENERATOR = makeItem("chronodyne_generator", new ChronodyneGeneratorItem());
+        public static final Item ANGEL_SPAWNER = makeItem("weeping_angel", new AngelSpawnerItem());
+        public static final Item KONTRON_INGOT = makeItem("kontron_ingot", new Item(new Item.Properties().tab(WATabs.MAIN_TAB)));
+        public static final Item CHISEL = makeItem("chisel", new ChiselItem(new Item.Properties().stacksTo(1).tab(WATabs.MAIN_TAB)));
+        public static final Item SALLY = makeItem("music_disc_sally", new RecordItem(6, Sounds.DISC_SALLY, (new Item.Properties()).stacksTo(1).tab(CreativeModeTab.TAB_MISC).rarity(Rarity.RARE)));
+        public static final Item TIME_PREVAILS = makeItem("music_disc_time_prevails", new RecordItem(6, Sounds.DISC_TIME_PREVAILS, (new Item.Properties()).stacksTo(1).tab(CreativeModeTab.TAB_MISC).rarity(Rarity.RARE)));
+ 
+        public static Item makeItem(String name, Item item){
+            return Registry.register(Registry.ITEM, new ResourceLocation(WeepingAngels.MODID, name), item);
+        }
+ 
     }
 
     // Sounds
