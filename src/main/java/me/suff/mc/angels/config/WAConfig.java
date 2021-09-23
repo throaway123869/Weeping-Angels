@@ -35,7 +35,6 @@ public class WAConfig {
     public double damage = 8;
     public int xpGained = 25;
     public boolean blockBreaking = true;
-    public int blockBreakRange;
     public boolean chickenGoboom;
     public boolean torchBlowOut = true;
     public boolean freezeOnAngel = false;
@@ -46,6 +45,7 @@ public class WAConfig {
     public boolean angelDimTeleport = true;
     public boolean aggroCreative = false;
     public boolean spawnFromBlocks = true;
+    public String[] notAllowedDimensions = new String[]{};
 
 
     public ArrayList<String> genBiomesForSpawn() {

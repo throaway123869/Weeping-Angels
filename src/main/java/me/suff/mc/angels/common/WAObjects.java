@@ -10,11 +10,13 @@ import me.suff.mc.angels.common.items.ChronodyneGeneratorItem;
 import me.suff.mc.angels.common.items.DetectorItem;
 import me.suff.mc.angels.common.misc.WATabs;
 import me.suff.mc.angels.utils.WADamageSource;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.*;
@@ -24,30 +26,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 
-@Mod.EventBusSubscriber(modid = WeepingAngels.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class WAObjects {
 
     public static DamageSource ANGEL = new WADamageSource("backintime"), GENERATOR = new WADamageSource("generator"), STONE = new WADamageSource("punch_stone"), ANGEL_NECK_SNAP = new WADamageSource("neck_snap");
 
     public static ResourceLocation CRYPT_LOOT = new ResourceLocation(WeepingAngels.MODID, "chests/crypt");
 
-    private static Block setUpBlock(Block block) {
-        return block;
-    }
-
-    private static void genBlockItems(Block... blocks) {
-        for (Block block : blocks) {
-            Blocks.BLOCK_makeItem(block.getRegistryName().getPath(), new BlockItem(block, new Item.Properties().tab(WATabs.MAIN_TAB))));
-        }
-    }
-
-    @SuppressWarnings("unused")
-    private static void genBlockItems(Collection<RegistryObject<Block>> collection) {
-        for (RegistryObject<Block> block : collection) {
-            CreativeModeTab itemGroup = WATabs.MAIN_TAB;
-            Blocks.BLOCK_makeItem(block.get().getRegistryName().getPath(), new BlockItem(block.get(), new Item.Properties().tab(itemGroup))));
-        }
-    }
 
     private static SoundEvent setUpSound(String soundName) {
         SoundEvent soundEvent = new SoundEvent(new ResourceLocation(WeepingAngels.MODID, soundName));
@@ -55,15 +39,6 @@ public class WAObjects {
         return soundEvent;
     }
 
-    @SubscribeEvent
-    public static void regBlockItems(RegistryEvent.Register<Item> e) {
-        genBlockItems(Blocks.COFFIN.get(), Blocks.SNOW_ANGEL.get(), Blocks.KONTRON_ORE.get(), Blocks.KONTRON_ORE_DEEPSLATE.get(), Blocks.PLINTH.get(), Blocks.STATUE.get());
-    }
-
-    // Tile Creation
-    private static <T extends BlockEntity> BlockEntityType<T> registerTiles(BlockEntityType.BlockEntitySupplier<T> tile, Block validBlock) {
-        return BlockEntityType.Builder.of(tile, validBlock).build(null);
-    }
 
     // Entity Creation
     private static <T extends Entity> EntityType<T> registerBase(EntityType.EntityFactory<T> factory, IClientSpawner<T> client, MobCategory classification, float width, float height, int trackingRange, int updateFreq, boolean sendUpdate, String name) {
@@ -146,11 +121,18 @@ public class WAObjects {
 
     // Entities
     public static class EntityEntries {
-        public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, WeepingAngels.MODID);
 
-        public static final RegistryObject<EntityType<WeepingAngel>> WEEPING_ANGEL = ENTITIES.register("weeping_angel", () -> registerFireResistMob(WeepingAngel::new, WeepingAngel::new, MobCategory.MONSTER, 1F, 1.75F, "weeping_angel", false));
-        public static final RegistryObject<EntityType<Portal>> ANOMALY = ENTITIES.register("anomaly", () -> registerMob(Portal::new, Portal::new, MobCategory.MONSTER, 1F, 1.75F, "anomaly", false));
-        public static final RegistryObject<EntityType<ChronodyneGeneratorProjectile>> CHRONODYNE_GENERATOR = ENTITIES.register("chronodyne_generator", () -> registerMob(ChronodyneGeneratorProjectile::new, ChronodyneGeneratorProjectile::new, MobCategory.MISC, 0.5F, 0.5F, "chronodyne_generator", true));
+        public static final EntityType<WeepingAngel> CUBE = Registry.register(
+                Registry.ENTITY_TYPE,
+                new ResourceLocation(WeepingAngels.MODID, "weeping_angel"),
+                FabricEntityTypeBuilder.create(MobCategory.CREATURE, WeepingAngel::new).dimensions(EntityDimensions.fixed(1F, 1.75F)).build()
+        );
+
+
+
+        public static final EntityType<WeepingAngel> WEEPING_ANGEL = ENTITIES.register("weeping_angel", () -> registerFireResistMob(WeepingAngel::new, WeepingAngel::new, MobCategory.MONSTER, 1F, 1.75F, "weeping_angel", false));
+        public static final EntityType<Portal> ANOMALY = ENTITIES.register("anomaly", () -> registerMob(Portal::new, Portal::new, MobCategory.MONSTER, 1F, 1.75F, "anomaly", false));
+        public static final EntityType<ChronodyneGeneratorProjectile> CHRONODYNE_GENERATOR = ENTITIES.register("chronodyne_generator", () -> registerMob(ChronodyneGeneratorProjectile::new, ChronodyneGeneratorProjectile::new, MobCategory.MISC, 0.5F, 0.5F, "chronodyne_generator", true));
     }
 
 

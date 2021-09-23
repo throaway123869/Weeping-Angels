@@ -39,11 +39,11 @@ public class QuantumLockedLifeform extends Monster implements Enemy {
     public void aiStep() {
         super.aiStep();
         if (!level.isClientSide) {
-            List<Player> players = level.getEntitiesOfClass(Player.class, getBoundingBox().inflate(WAConfig.CONFIG.stalkRange.get()));
+            List<Player> players = level.getEntitiesOfClass(Player.class, getBoundingBox().inflate(WAConfig.CONFIG.stalkRange));
             players.removeIf(player -> player.isSpectator() || player.isInvisible() || player.isSleeping() || player.level != level);
 
-            if (WAConfig.CONFIG.freezeOnAngel.get()) {
-                List<WeepingAngel> angels = level.getEntitiesOfClass(WeepingAngel.class, getBoundingBox().inflate(WAConfig.CONFIG.stalkRange.get()));
+            if (WAConfig.CONFIG.freezeOnAngel) {
+                List<WeepingAngel> angels = level.getEntitiesOfClass(WeepingAngel.class, getBoundingBox().inflate(WAConfig.CONFIG.stalkRange));
                 for (WeepingAngel angel : angels) {
                     if (angel.getUUID() != getUUID() && ViewUtil.isInSight(angel, this) && isOnGround()) {
                         setSeenTime(getSeenTime() + 1);
@@ -71,7 +71,7 @@ public class QuantumLockedLifeform extends Monster implements Enemy {
                     }
                 }
 
-                if (isSeen() || !WAConfig.CONFIG.aggroCreative.get() && targetPlayer.isCreative()) return;
+                if (isSeen() || !WAConfig.CONFIG.aggroCreative && targetPlayer.isCreative()) return;
                 snapLookToPlayer(targetPlayer);
                 if (distanceTo(targetPlayer) < 2)
                     doHurtTarget(targetPlayer);
@@ -100,10 +100,9 @@ public class QuantumLockedLifeform extends Monster implements Enemy {
         getEntityData().define(PREVBLOCKPOS, BlockPos.ZERO);
     }
 
-
     @Override
-    public void deserializeNBT(CompoundTag compound) {
-        super.deserializeNBT(compound);
+    public void readAdditionalSaveData(CompoundTag compound) {
+        super.readAdditionalSaveData(compound);
         if (compound.contains(WAConstants.TIME_SEEN)) setSeenTime(compound.getInt(WAConstants.TIME_SEEN));
         if (compound.contains(WAConstants.PREVPOS)) setPrevPos(getPrevPos());
     }

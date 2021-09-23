@@ -1,9 +1,7 @@
 package me.suff.mc.angels.common.events;
 
 import me.suff.mc.angels.client.sounds.DetectorTickableSound;
-import me.suff.mc.angels.common.AngelParticles;
 import me.suff.mc.angels.common.WAObjects;
-import me.suff.mc.angels.conversion.particle.AngelParticle;
 import me.suff.mc.angels.utils.DateChecker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -15,18 +13,10 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.DrawSelectionEvent;
-import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 
 /**
  * Created by Craig on 11/02/2020 @ 21:31
  */
-@Mod.EventBusSubscriber(value = Dist.CLIENT)
 public class ClientEvents {
 
     public static boolean isInCatacombs = false;

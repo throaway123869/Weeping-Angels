@@ -204,10 +204,10 @@ public class AngelUtil {
 
     public static boolean isInCatacomb(LivingEntity playerEntity) {
         if (playerEntity.level instanceof ServerLevel serverWorld) {
-            boolean isCatacomb = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), true, WAWorld.CATACOMBS.get()).isValid();
+            boolean isCatacomb = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), true, WAWorld.CATACOMBS).isValid();
 
             if (isCatacomb) {
-                BoundingBox box = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), true, WAWorld.CATACOMBS.get()).getBoundingBox();
+                BoundingBox box = serverWorld.structureFeatureManager().getStructureAt(playerEntity.blockPosition(), true, WAWorld.CATACOMBS).getBoundingBox();
                 return intersects(playerEntity.getBoundingBox(), new Vec3(box.minX(), box.minY(), box.minZ()), new Vec3(box.maxX(), box.maxY(), box.maxZ()));
             }
         }

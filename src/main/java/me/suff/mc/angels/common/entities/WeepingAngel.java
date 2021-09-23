@@ -68,7 +68,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
     private static final SoundEvent[] CHILD_SOUNDS = new SoundEvent[]{SoundEvents.VEX_AMBIENT, WAObjects.Sounds.LAUGHING_CHILD};
     public long timeSincePlayedSound = 0;
 
-    public WeepingAngel(EntityType<? extends QuantumLockedLifeform> type, Level world) {
+    public WeepingAngel(EntityType<? extends Entity> type, Level world) {
         this(world);
     }
 
@@ -80,14 +80,12 @@ public class WeepingAngel extends QuantumLockedLifeform {
         xpReward = WAConfig.CONFIG.xpGained;
     }
 
-
     public static AttributeSupplier.Builder createAttributes() {
         return createMonsterAttributes().
                 add(Attributes.ATTACK_DAMAGE, WAConfig.CONFIG.damage).
                 add(Attributes.MAX_HEALTH, 50D).
                 add(Attributes.KNOCKBACK_RESISTANCE, 1.0D).
                 add(Attributes.MOVEMENT_SPEED, 0.8D).
-                add(WAAttributes.BLOCK_BREAK_RANGE, WAConfig.CONFIG.blockBreakRange).
                 add(Attributes.ARMOR, 2.0D);
     }
 
@@ -168,8 +166,7 @@ public class WeepingAngel extends QuantumLockedLifeform {
 
     @Override
     public boolean doHurtTarget(Entity entity) {
-        if (entity instanceof ServerPlayer) {
-            ServerPlayer serverPlayerEntity = (ServerPlayer) entity;
+        if (entity instanceof ServerPlayer serverPlayerEntity) {
             boolean isCherub = isCherub();
             if (isCherub) {
                 dealDamage(serverPlayerEntity);
