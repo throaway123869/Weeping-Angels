@@ -71,8 +71,8 @@ public class EntityChronodyneGenerator extends EntityThrowable {
                 a.setEntityEyeHeight(result.entityHit.getEyeHeight());
                 a.copyLocationAndAnglesFrom(result.entityHit);
                 world.spawnEntity(a);
-                angel.setDead();
                 angel.dropAngelStuff();
+                angel.setDead();
                 setDead();
             }
         }
